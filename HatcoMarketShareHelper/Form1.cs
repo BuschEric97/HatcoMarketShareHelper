@@ -69,6 +69,8 @@ namespace HatcoMarketShareHelper
                 watch.Stop();
                 determinerProgressBar.Value = determinerProgressBar.Maximum;
                 MessageBox.Show("Complete!\nTime elapsed: " + watch.Elapsed);
+                determinerProgressDetailed.Text = "0/0";
+                determinerProgressBar.Value = determinerProgressBar.Minimum;
             }
             catch (Exception ex)
             {
@@ -91,11 +93,15 @@ namespace HatcoMarketShareHelper
 
             try
             {
+                processorProgressBar.Value = processorProgressBar.Minimum;
                 watch.Start();
                 await Task.Run(() => proc.mainProcessor(MLSInputFile_Processor.Text,
                     includeNonMLSAgent.Checked, progress, this));
                 watch.Stop();
+                processorProgressBar.Value = processorProgressBar.Maximum;
                 MessageBox.Show("Complete!\nTime elapsed: " + watch.Elapsed);
+                processorProgressDetailed.Text = "0/0";
+                processorProgressBar.Value = processorProgressBar.Minimum;
             }
             catch (Exception ex)
             {
