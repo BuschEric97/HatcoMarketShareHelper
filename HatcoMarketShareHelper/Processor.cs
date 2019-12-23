@@ -13,7 +13,7 @@ namespace HatcoMarketShareHelper
     class Processor
     {
         public void mainProcessor(string MLSFileName, bool includeNonMLS, bool runAsCapstone, bool doSubtotals,
-            IProgress<int> progress, Form1 form)
+            Dictionary<string, string[]> specificAreas, IProgress<int> progress, Form1 form)
         {
             Application.UseWaitCursor = true; // set the cursor to waiting symbol
 
@@ -31,7 +31,7 @@ namespace HatcoMarketShareHelper
 
             if (xlWorkbookMLS != null)
             {
-                // open worksheets and range in excel files for use
+                // open existing worksheets and create new ones in excel file for use
                 Excel._Worksheet xlWorksheet1MLS = xlWorkbookMLS.Sheets[1];
                 xlWorksheet1MLS.Name = "RawMLSData";
                 xlWorkbookMLS.Sheets.Add(After:xlWorkbookMLS.Sheets[xlWorkbookMLS.Sheets.Count], Count:2);
@@ -39,9 +39,20 @@ namespace HatcoMarketShareHelper
                 xlWorksheet2MLS.Name = "AgentCombined";
                 Excel._Worksheet xlWorksheet3MLS = xlWorkbookMLS.Sheets[3];
                 xlWorksheet3MLS.Name = "BrokerCombined";
+                if (!runAsCapstone)
+                {
+                    xlWorkbookMLS.Sheets.Add(After: xlWorkbookMLS.Sheets[xlWorkbookMLS.Sheets.Count],
+                        Count: (2 + specificAreas.Count));
+                    xlWorkbookMLS.Sheets[4].Name = "RegionAll";
+                    xlWorkbookMLS.Sheets[5].Name = "ZipAll";
+                    for (int i = 6, j = 0; i <= xlWorkbookMLS.Sheets.Count; i++, j++)
+                    {
+                        xlWorkbookMLS.Sheets[i].Name = specificAreas.ElementAt(j).Key;
+                    }
+                }
+
+                // open range for first excel spreadsheet
                 Excel.Range xlRange1MLS = xlWorksheet1MLS.UsedRange;
-                Excel.Range xlRange2MLS = xlApp.Range[xlWorksheet2MLS.Cells[1, 1], xlWorksheet2MLS.Cells[1, 1]];
-                Excel.Range xlRange3MLS = xlApp.Range[xlWorksheet3MLS.Cells[1, 1], xlWorksheet3MLS.Cells[1, 1]];
 
                 Dictionary<string, int> rangeCount = new Dictionary<string, int>();
                 Dictionary<string, int> relevantCols = new Dictionary<string, int>();
@@ -150,48 +161,48 @@ namespace HatcoMarketShareHelper
                     }
 
                     // Create column headers for additional worksheets
-                    xlRange2MLS.Cells[1, 1].Value = "Agent Name";
-                    xlRange2MLS.Cells[1, 2].Value = "Agent Office";
-                    xlRange2MLS.Cells[1, 3].Value = "Owner";
-                    xlRange2MLS.Cells[1, 4].Value = "City";
-                    xlRange2MLS.Cells[1, 5].Value = "Zip";
-                    xlRange2MLS.Cells[1, 6].Value = "Address";
-                    xlRange2MLS.Cells[1, 7].Value = "Closing Date";
-                    xlRange2MLS.Cells[1, 8].Value = "Price";
-                    xlRange2MLS.Cells[1, 9].Value = "GF #";
-                    xlRange2MLS.Cells[1, 10].Value = "Escrow Officer";
-                    xlRange2MLS.Cells[1, 11].Value = "Region";
-                    xlRange2MLS.Cells[1, 12].Value = "High School";
-                    xlRange2MLS.Cells[1, 13].Value = "Title Company";
-                    xlRange2MLS.Cells[1, 14].Value = "As SA";
-                    xlRange2MLS.Cells[1, 15].Value = "Closings";
-                    xlRange2MLS.Cells[1, 16].Value = "TC Close";
-                    xlRange2MLS.Cells[1, 17].Value = "BS Closings";
-                    xlRange2MLS.Cells[1, 18].Value = "BS TC Close";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 1].Value = "Agent Name";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 2].Value = "Agent Office";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 3].Value = "Owner";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 4].Value = "City";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 5].Value = "Zip";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 6].Value = "Address";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 7].Value = "Closing Date";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 8].Value = "Price";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 9].Value = "GF #";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 10].Value = "Escrow Officer";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 11].Value = "Region";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 12].Value = "High School";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 13].Value = "Title Company";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 14].Value = "As SA";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 15].Value = "Closings";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 16].Value = "TC Close";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 17].Value = "BS Closings";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 18].Value = "BS TC Close";
 
-                    xlRange3MLS.Cells[1, 1].Value = "Agent Name";
-                    xlRange3MLS.Cells[1, 2].Value = "Agent Office";
-                    xlRange3MLS.Cells[1, 3].Value = "Owner";
-                    xlRange3MLS.Cells[1, 4].Value = "City";
-                    xlRange3MLS.Cells[1, 5].Value = "Zip";
-                    xlRange3MLS.Cells[1, 6].Value = "Address";
-                    xlRange3MLS.Cells[1, 7].Value = "Closing Date";
-                    xlRange3MLS.Cells[1, 8].Value = "Price";
-                    xlRange3MLS.Cells[1, 9].Value = "GF #";
-                    xlRange3MLS.Cells[1, 10].Value = "Escrow Officer";
-                    xlRange3MLS.Cells[1, 11].Value = "Region";
-                    xlRange3MLS.Cells[1, 12].Value = "High School";
-                    xlRange3MLS.Cells[1, 13].Value = "Title Company";
-                    xlRange3MLS.Cells[1, 14].Value = "As SA";
-                    xlRange3MLS.Cells[1, 15].Value = "Closings";
-                    xlRange3MLS.Cells[1, 16].Value = "TC Close";
-                    xlRange3MLS.Cells[1, 17].Value = "BS Closings";
-                    xlRange3MLS.Cells[1, 18].Value = "BS TC Close";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 1].Value = "Agent Name";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 2].Value = "Agent Office";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 3].Value = "Owner";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 4].Value = "City";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 5].Value = "Zip";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 6].Value = "Address";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 7].Value = "Closing Date";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 8].Value = "Price";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 9].Value = "GF #";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 10].Value = "Escrow Officer";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 11].Value = "Region";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 12].Value = "High School";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 13].Value = "Title Company";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 14].Value = "As SA";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 15].Value = "Closings";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 16].Value = "TC Close";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 17].Value = "BS Closings";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 18].Value = "BS TC Close";
 
                     ProcessorWork proc = new ProcessorWork();
                     proc.processorWork(xlWorksheet1MLS, xlWorksheet2MLS, xlWorksheet3MLS,
-                        xlRange1MLS, xlRange2MLS, xlRange3MLS, rangeCount, relevantCols,
-                        includeNonMLS, runAsCapstone, doSubtotals, progress, form);
+                        rangeCount, relevantCols, includeNonMLS, runAsCapstone, doSubtotals,
+                        specificAreas, progress, form);
                 }
                 catch (Exception ex) // if an exception is caught, close the excel files so they aren't held hostage
                 {
@@ -205,8 +216,8 @@ namespace HatcoMarketShareHelper
                     // release com objects so the excel processes are
                     // fully killed from running in the background
                     Marshal.ReleaseComObject(xlRange1MLS);
-                    Marshal.ReleaseComObject(xlRange2MLS);
-                    Marshal.ReleaseComObject(xlRange3MLS);
+                    //Marshal.ReleaseComObject(xlRange2MLS);
+                    //Marshal.ReleaseComObject(xlRange3MLS);
                     Marshal.ReleaseComObject(xlWorksheet1MLS);
                     Marshal.ReleaseComObject(xlWorksheet2MLS);
                     Marshal.ReleaseComObject(xlWorksheet3MLS);
@@ -230,8 +241,8 @@ namespace HatcoMarketShareHelper
                 // release com objects so the excel processes are
                 // fully killed from running in the background
                 Marshal.ReleaseComObject(xlRange1MLS);
-                Marshal.ReleaseComObject(xlRange2MLS);
-                Marshal.ReleaseComObject(xlRange3MLS);
+                //Marshal.ReleaseComObject(xlRange2MLS);
+                //Marshal.ReleaseComObject(xlRange3MLS);
                 Marshal.ReleaseComObject(xlWorksheet1MLS);
                 Marshal.ReleaseComObject(xlWorksheet2MLS);
                 Marshal.ReleaseComObject(xlWorksheet3MLS);

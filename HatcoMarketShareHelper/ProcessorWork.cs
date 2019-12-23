@@ -13,15 +13,15 @@ namespace HatcoMarketShareHelper
     class ProcessorWork
     {
         public void processorWork(Excel._Worksheet xlWorksheet1MLS, Excel._Worksheet xlWorksheet2MLS,
-            Excel._Worksheet xlWorksheet3MLS, Excel.Range xlRange1MLS, Excel.Range xlRange2MLS,
-            Excel.Range xlRange3MLS, Dictionary<string, int> rangeCount, Dictionary<string, int> relevantCols,
-            bool includeNonMLS, bool runAsCapstone, bool doSubtotals, IProgress<int> progress, Form1 form)
+            Excel._Worksheet xlWorksheet3MLS,  Dictionary<string, int> rangeCount, Dictionary<string, int> relevantCols,
+            bool includeNonMLS, bool runAsCapstone, bool doSubtotals, Dictionary<string, string[]> specificAreas,
+            IProgress<int> progress, Form1 form)
         {
             int sheet2CurrRow = 2;
             int sheet3CurrRow = 2;
-            xlRange1MLS = xlWorksheet1MLS.UsedRange;
-            xlRange2MLS = xlWorksheet2MLS.UsedRange;
-            xlRange3MLS = xlWorksheet3MLS.UsedRange;
+            Excel.Range xlRange1MLS = xlWorksheet1MLS.UsedRange;
+            Excel.Range xlRange2MLS = xlWorksheet2MLS.UsedRange;
+            Excel.Range xlRange3MLS = xlWorksheet3MLS.UsedRange;
 
             for (int sheet1CurrRow = 2; sheet1CurrRow < rangeCount["rowCount1MLS"]; sheet1CurrRow++)
             {

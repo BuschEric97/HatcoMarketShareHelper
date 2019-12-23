@@ -98,13 +98,15 @@ namespace HatcoMarketShareHelper
             {
                 processorProgressBar.Increment(v);
             });
+            Dictionary<string, string[]> specificAreas = getSpecificAreas();
 
             try
             {
                 processorProgressBar.Value = processorProgressBar.Minimum;
                 watch.Start();
                 await Task.Run(() => proc.mainProcessor(MLSInputFile_Processor.Text,
-                    includeNonMLSAgent.Checked, runAsCapstone.Checked, doSubtotals.Checked, progress, this));
+                    includeNonMLSAgent.Checked, runAsCapstone.Checked, doSubtotals.Checked,
+                    specificAreas, progress, this));
                 watch.Stop();
                 processorProgressBar.Value = processorProgressBar.Maximum;
                 MessageBox.Show("Complete!\nTime elapsed: " + watch.Elapsed);
@@ -116,6 +118,35 @@ namespace HatcoMarketShareHelper
                 // display any exceptions that are thrown as a popup message box
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        /// <summary>
+        /// get the data from the configuration file as a dictionary of string arrays
+        /// </summary>
+        /// <returns></returns>
+        private Dictionary<string, string[]> getSpecificAreas()
+        {
+            Dictionary<string, string[]> specificAreas = new Dictionary<string, string[]>();
+
+            if (File.Exists(configFile.Text))
+            {
+                using (StreamReader sr = File.OpenText(configFile.Text))
+                {
+                    string configLine;
+                    while ((configLine = sr.ReadLine()) != null)
+                    {
+                        string[] specificArea = configLine.Split(':');
+                        specificAreas.Add(specificArea[0], specificArea[1].Split(','));
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Error: Configuration file does not exist at given path:\n" +
+                    configFile.Text);
+            }
+
+            return specificAreas;
         }
 
         private void refreshConfigData_Click(object sender, EventArgs e)
@@ -145,6 +176,7 @@ namespace HatcoMarketShareHelper
             {
                 string[] configLines = configData.Text.Split(' ');
                 File.WriteAllLines(configFile.Text, configLines);
+                MessageBox.Show("Successfully saved configuration file!");
             }
             else
             {
