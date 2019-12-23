@@ -39,7 +39,7 @@ namespace HatcoMarketShareHelper
                 xlWorksheet2MLS.Name = "AgentCombined";
                 Excel._Worksheet xlWorksheet3MLS = xlWorkbookMLS.Sheets[3];
                 xlWorksheet3MLS.Name = "BrokerCombined";
-                if (!runAsCapstone)
+                if (runAsCapstone)
                 {
                     xlWorkbookMLS.Sheets.Add(After: xlWorkbookMLS.Sheets[xlWorkbookMLS.Sheets.Count],
                         Count: (2 + specificAreas.Count));
