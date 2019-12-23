@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace HatcoMarketShareHelper
 {
@@ -46,6 +47,13 @@ namespace HatcoMarketShareHelper
         {
             if (sameMLSFiles.Checked)
                 MLSInputFile_Processor.Text = MLSInputFile_Determiner.Text;
+        }
+
+        private void openConfigFile_Click(object sender, EventArgs e)
+        {
+            openFileDialogConfig.ShowHelp = true;
+            openFileDialogConfig.ShowDialog();
+            configFile.Text = openFileDialogConfig.FileName;
         }
 
         private async void runDeterminer_Click(object sender, EventArgs e)
@@ -96,7 +104,7 @@ namespace HatcoMarketShareHelper
                 processorProgressBar.Value = processorProgressBar.Minimum;
                 watch.Start();
                 await Task.Run(() => proc.mainProcessor(MLSInputFile_Processor.Text,
-                    includeNonMLSAgent.Checked, progress, this));
+                    includeNonMLSAgent.Checked, runAsCapstone.Checked, doSubtotals.Checked, progress, this));
                 watch.Stop();
                 processorProgressBar.Value = processorProgressBar.Maximum;
                 MessageBox.Show("Complete!\nTime elapsed: " + watch.Elapsed);
@@ -107,6 +115,41 @@ namespace HatcoMarketShareHelper
             {
                 // display any exceptions that are thrown as a popup message box
                 MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void refreshConfigData_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(configFile.Text))
+            {
+                using (StreamReader sr = File.OpenText(configFile.Text))
+                {
+                    string configLine = sr.ReadLine();
+                    configData.Text = configLine;
+                    while ((configLine = sr.ReadLine()) != null)
+                    {
+                        configData.Text = configData.Text + " " + configLine;
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Error: Configuration file does not exist at given path:\n" +
+                    configFile.Text);
+            }
+        }
+
+        private void saveConfigData_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(configFile.Text))
+            {
+                string[] configLines = configData.Text.Split(' ');
+                File.WriteAllLines(configFile.Text, configLines);
+            }
+            else
+            {
+                MessageBox.Show("Error: Configuration file does not exist at given path:\n" +
+                    configFile.Text);
             }
         }
     }

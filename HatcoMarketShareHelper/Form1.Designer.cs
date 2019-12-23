@@ -31,11 +31,13 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.homeTab = new System.Windows.Forms.TabPage();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.determinerProgressBar = new System.Windows.Forms.ProgressBar();
             this.label1 = new System.Windows.Forms.Label();
             this.runDeterminer = new System.Windows.Forms.Button();
             this.determinerProgressDetailed = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.processorProgressBar = new System.Windows.Forms.ProgressBar();
             this.label2 = new System.Windows.Forms.Label();
             this.processorProgressDetailed = new System.Windows.Forms.Label();
             this.runProcessor = new System.Windows.Forms.Button();
@@ -56,12 +58,20 @@
             this.openMLSFile_Processor = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.doSubtotals = new System.Windows.Forms.CheckBox();
+            this.runAsCapstone = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
             this.sameMLSFiles = new System.Windows.Forms.CheckBox();
+            this.configTab = new System.Windows.Forms.TabPage();
+            this.openConfigFile = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.configFile = new System.Windows.Forms.TextBox();
             this.openFileDialogMLS = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogAIM = new System.Windows.Forms.OpenFileDialog();
-            this.determinerProgressBar = new System.Windows.Forms.ProgressBar();
-            this.processorProgressBar = new System.Windows.Forms.ProgressBar();
+            this.openFileDialogConfig = new System.Windows.Forms.OpenFileDialog();
+            this.configData = new System.Windows.Forms.TextBox();
+            this.refreshConfigData = new System.Windows.Forms.Button();
+            this.saveConfigData = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.homeTab.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -70,12 +80,14 @@
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.configTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.homeTab);
             this.tabControl1.Controls.Add(this.optionsTab);
+            this.tabControl1.Controls.Add(this.configTab);
             this.tabControl1.Location = new System.Drawing.Point(13, 13);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -106,6 +118,13 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(755, 185);
             this.panel4.TabIndex = 6;
+            // 
+            // determinerProgressBar
+            // 
+            this.determinerProgressBar.Location = new System.Drawing.Point(3, 157);
+            this.determinerProgressBar.Name = "determinerProgressBar";
+            this.determinerProgressBar.Size = new System.Drawing.Size(747, 23);
+            this.determinerProgressBar.TabIndex = 4;
             // 
             // label1
             // 
@@ -157,6 +176,13 @@
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(755, 199);
             this.panel5.TabIndex = 7;
+            // 
+            // processorProgressBar
+            // 
+            this.processorProgressBar.Location = new System.Drawing.Point(3, 171);
+            this.processorProgressBar.Name = "processorProgressBar";
+            this.processorProgressBar.Size = new System.Drawing.Size(747, 23);
+            this.processorProgressBar.TabIndex = 7;
             // 
             // label2
             // 
@@ -320,7 +346,7 @@
             this.MLSInputFile_Processor.Size = new System.Drawing.Size(543, 20);
             this.MLSInputFile_Processor.TabIndex = 4;
             this.MLSInputFile_Processor.Text = "C:\\Users\\Origami1105\\source\\repos\\HatcoMarketShareHelper\\Testing Files\\Processor " +
-    "Test Files\\MLSDataSmallTesting.xlsx";
+    "Test Files\\HatcoMLSDataTestingSmall.xlsx";
             // 
             // includeNonMLSAgent
             // 
@@ -356,12 +382,36 @@
             // panel3
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.doSubtotals);
+            this.panel3.Controls.Add(this.runAsCapstone);
             this.panel3.Controls.Add(this.label10);
             this.panel3.Controls.Add(this.sameMLSFiles);
             this.panel3.Location = new System.Drawing.Point(6, 273);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(755, 120);
             this.panel3.TabIndex = 13;
+            // 
+            // doSubtotals
+            // 
+            this.doSubtotals.AutoSize = true;
+            this.doSubtotals.Checked = true;
+            this.doSubtotals.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.doSubtotals.Location = new System.Drawing.Point(283, 43);
+            this.doSubtotals.Name = "doSubtotals";
+            this.doSubtotals.Size = new System.Drawing.Size(140, 17);
+            this.doSubtotals.TabIndex = 13;
+            this.doSubtotals.Text = "Do sorting and subtotals";
+            this.doSubtotals.UseVisualStyleBackColor = true;
+            // 
+            // runAsCapstone
+            // 
+            this.runAsCapstone.AutoSize = true;
+            this.runAsCapstone.Location = new System.Drawing.Point(168, 43);
+            this.runAsCapstone.Name = "runAsCapstone";
+            this.runAsCapstone.Size = new System.Drawing.Size(108, 17);
+            this.runAsCapstone.TabIndex = 12;
+            this.runAsCapstone.Text = "Run as Capstone";
+            this.runAsCapstone.UseVisualStyleBackColor = true;
             // 
             // label10
             // 
@@ -384,6 +434,49 @@
             this.sameMLSFiles.UseVisualStyleBackColor = true;
             this.sameMLSFiles.CheckedChanged += new System.EventHandler(this.sameMLSFiles_CheckedChanged);
             // 
+            // configTab
+            // 
+            this.configTab.Controls.Add(this.saveConfigData);
+            this.configTab.Controls.Add(this.refreshConfigData);
+            this.configTab.Controls.Add(this.configData);
+            this.configTab.Controls.Add(this.openConfigFile);
+            this.configTab.Controls.Add(this.label11);
+            this.configTab.Controls.Add(this.configFile);
+            this.configTab.Location = new System.Drawing.Point(4, 22);
+            this.configTab.Name = "configTab";
+            this.configTab.Padding = new System.Windows.Forms.Padding(3);
+            this.configTab.Size = new System.Drawing.Size(767, 399);
+            this.configTab.TabIndex = 2;
+            this.configTab.Text = "Configurations";
+            this.configTab.UseVisualStyleBackColor = true;
+            // 
+            // openConfigFile
+            // 
+            this.openConfigFile.Location = new System.Drawing.Point(551, 38);
+            this.openConfigFile.Name = "openConfigFile";
+            this.openConfigFile.Size = new System.Drawing.Size(75, 23);
+            this.openConfigFile.TabIndex = 2;
+            this.openConfigFile.Text = "Open";
+            this.openConfigFile.UseVisualStyleBackColor = true;
+            this.openConfigFile.Click += new System.EventHandler(this.openConfigFile_Click);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 24);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(132, 13);
+            this.label11.TabIndex = 1;
+            this.label11.Text = "Configuration File Location";
+            // 
+            // configFile
+            // 
+            this.configFile.Location = new System.Drawing.Point(6, 40);
+            this.configFile.Name = "configFile";
+            this.configFile.Size = new System.Drawing.Size(539, 20);
+            this.configFile.TabIndex = 0;
+            this.configFile.Text = "./config.txt";
+            // 
             // openFileDialogMLS
             // 
             this.openFileDialogMLS.FileName = "openFileDialog1";
@@ -392,19 +485,37 @@
             // 
             this.openFileDialogAIM.FileName = "openFileDialog1";
             // 
-            // determinerProgressBar
+            // openFileDialogConfig
             // 
-            this.determinerProgressBar.Location = new System.Drawing.Point(3, 157);
-            this.determinerProgressBar.Name = "determinerProgressBar";
-            this.determinerProgressBar.Size = new System.Drawing.Size(747, 23);
-            this.determinerProgressBar.TabIndex = 4;
+            this.openFileDialogConfig.FileName = "openFileDialog1";
             // 
-            // processorProgressBar
+            // configData
             // 
-            this.processorProgressBar.Location = new System.Drawing.Point(3, 171);
-            this.processorProgressBar.Name = "processorProgressBar";
-            this.processorProgressBar.Size = new System.Drawing.Size(747, 23);
-            this.processorProgressBar.TabIndex = 7;
+            this.configData.Location = new System.Drawing.Point(6, 111);
+            this.configData.Multiline = true;
+            this.configData.Name = "configData";
+            this.configData.Size = new System.Drawing.Size(539, 133);
+            this.configData.TabIndex = 3;
+            // 
+            // refreshConfigData
+            // 
+            this.refreshConfigData.Location = new System.Drawing.Point(6, 82);
+            this.refreshConfigData.Name = "refreshConfigData";
+            this.refreshConfigData.Size = new System.Drawing.Size(75, 23);
+            this.refreshConfigData.TabIndex = 4;
+            this.refreshConfigData.Text = "Refresh";
+            this.refreshConfigData.UseVisualStyleBackColor = true;
+            this.refreshConfigData.Click += new System.EventHandler(this.refreshConfigData_Click);
+            // 
+            // saveConfigData
+            // 
+            this.saveConfigData.Location = new System.Drawing.Point(87, 82);
+            this.saveConfigData.Name = "saveConfigData";
+            this.saveConfigData.Size = new System.Drawing.Size(75, 23);
+            this.saveConfigData.TabIndex = 5;
+            this.saveConfigData.Text = "Save";
+            this.saveConfigData.UseVisualStyleBackColor = true;
+            this.saveConfigData.Click += new System.EventHandler(this.saveConfigData_Click);
             // 
             // Form1
             // 
@@ -427,6 +538,8 @@
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.configTab.ResumeLayout(false);
+            this.configTab.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -467,6 +580,16 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ProgressBar determinerProgressBar;
         private System.Windows.Forms.ProgressBar processorProgressBar;
+        private System.Windows.Forms.CheckBox runAsCapstone;
+        private System.Windows.Forms.CheckBox doSubtotals;
+        private System.Windows.Forms.TabPage configTab;
+        private System.Windows.Forms.Button openConfigFile;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox configFile;
+        private System.Windows.Forms.OpenFileDialog openFileDialogConfig;
+        private System.Windows.Forms.Button saveConfigData;
+        private System.Windows.Forms.Button refreshConfigData;
+        private System.Windows.Forms.TextBox configData;
     }
 }
 
