@@ -63,15 +63,15 @@
             this.label10 = new System.Windows.Forms.Label();
             this.sameMLSFiles = new System.Windows.Forms.CheckBox();
             this.configTab = new System.Windows.Forms.TabPage();
+            this.saveConfigData = new System.Windows.Forms.Button();
+            this.refreshConfigData = new System.Windows.Forms.Button();
+            this.configData = new System.Windows.Forms.TextBox();
             this.openConfigFile = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.configFile = new System.Windows.Forms.TextBox();
             this.openFileDialogMLS = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogAIM = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogConfig = new System.Windows.Forms.OpenFileDialog();
-            this.configData = new System.Windows.Forms.TextBox();
-            this.refreshConfigData = new System.Windows.Forms.Button();
-            this.saveConfigData = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.homeTab.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -266,8 +266,7 @@
             this.MLSInputFile_Determiner.Name = "MLSInputFile_Determiner";
             this.MLSInputFile_Determiner.Size = new System.Drawing.Size(543, 20);
             this.MLSInputFile_Determiner.TabIndex = 0;
-            this.MLSInputFile_Determiner.Text = "C:\\Users\\Origami1105\\source\\repos\\HatcoMarketShareHelper\\Testing Files\\Determiner" +
-    " Test Files\\MLSData.xlsx";
+            this.MLSInputFile_Determiner.Text = "C:\\MLSData.xlsx";
             // 
             // openMLSFile_Determiner
             // 
@@ -295,8 +294,7 @@
             this.AIMInputFile.Name = "AIMInputFile";
             this.AIMInputFile.Size = new System.Drawing.Size(543, 20);
             this.AIMInputFile.TabIndex = 2;
-            this.AIMInputFile.Text = "C:\\Users\\Origami1105\\source\\repos\\HatcoMarketShareHelper\\Testing Files\\Determiner" +
-    " Test Files\\AIMData.xlsx";
+            this.AIMInputFile.Text = "C:\\AIMData.xlsx";
             // 
             // label3
             // 
@@ -345,8 +343,7 @@
             this.MLSInputFile_Processor.Name = "MLSInputFile_Processor";
             this.MLSInputFile_Processor.Size = new System.Drawing.Size(543, 20);
             this.MLSInputFile_Processor.TabIndex = 4;
-            this.MLSInputFile_Processor.Text = "C:\\Users\\Origami1105\\source\\repos\\HatcoMarketShareHelper\\Testing Files\\Processor " +
-    "Test Files\\HatcoMLSDataTestingSmall.xlsx";
+            this.MLSInputFile_Processor.Text = "C:\\MLSData.xlsx";
             // 
             // includeNonMLSAgent
             // 
@@ -450,6 +447,34 @@
             this.configTab.Text = "Configurations";
             this.configTab.UseVisualStyleBackColor = true;
             // 
+            // saveConfigData
+            // 
+            this.saveConfigData.Location = new System.Drawing.Point(87, 82);
+            this.saveConfigData.Name = "saveConfigData";
+            this.saveConfigData.Size = new System.Drawing.Size(75, 23);
+            this.saveConfigData.TabIndex = 5;
+            this.saveConfigData.Text = "Save";
+            this.saveConfigData.UseVisualStyleBackColor = true;
+            this.saveConfigData.Click += new System.EventHandler(this.saveConfigData_Click);
+            // 
+            // refreshConfigData
+            // 
+            this.refreshConfigData.Location = new System.Drawing.Point(6, 82);
+            this.refreshConfigData.Name = "refreshConfigData";
+            this.refreshConfigData.Size = new System.Drawing.Size(75, 23);
+            this.refreshConfigData.TabIndex = 4;
+            this.refreshConfigData.Text = "Refresh";
+            this.refreshConfigData.UseVisualStyleBackColor = true;
+            this.refreshConfigData.Click += new System.EventHandler(this.refreshConfigData_Click);
+            // 
+            // configData
+            // 
+            this.configData.Location = new System.Drawing.Point(6, 111);
+            this.configData.Multiline = true;
+            this.configData.Name = "configData";
+            this.configData.Size = new System.Drawing.Size(539, 133);
+            this.configData.TabIndex = 3;
+            // 
             // openConfigFile
             // 
             this.openConfigFile.Location = new System.Drawing.Point(551, 38);
@@ -475,47 +500,19 @@
             this.configFile.Name = "configFile";
             this.configFile.Size = new System.Drawing.Size(539, 20);
             this.configFile.TabIndex = 0;
-            this.configFile.Text = "./config.txt";
+            this.configFile.Text = ".\\config.txt";
             // 
             // openFileDialogMLS
             // 
-            this.openFileDialogMLS.FileName = "openFileDialog1";
+            this.openFileDialogMLS.FileName = ".\\MLSData.xlsx";
             // 
             // openFileDialogAIM
             // 
-            this.openFileDialogAIM.FileName = "openFileDialog1";
+            this.openFileDialogAIM.FileName = ".\\AIMData.xlsx";
             // 
             // openFileDialogConfig
             // 
-            this.openFileDialogConfig.FileName = "openFileDialog1";
-            // 
-            // configData
-            // 
-            this.configData.Location = new System.Drawing.Point(6, 111);
-            this.configData.Multiline = true;
-            this.configData.Name = "configData";
-            this.configData.Size = new System.Drawing.Size(539, 133);
-            this.configData.TabIndex = 3;
-            // 
-            // refreshConfigData
-            // 
-            this.refreshConfigData.Location = new System.Drawing.Point(6, 82);
-            this.refreshConfigData.Name = "refreshConfigData";
-            this.refreshConfigData.Size = new System.Drawing.Size(75, 23);
-            this.refreshConfigData.TabIndex = 4;
-            this.refreshConfigData.Text = "Refresh";
-            this.refreshConfigData.UseVisualStyleBackColor = true;
-            this.refreshConfigData.Click += new System.EventHandler(this.refreshConfigData_Click);
-            // 
-            // saveConfigData
-            // 
-            this.saveConfigData.Location = new System.Drawing.Point(87, 82);
-            this.saveConfigData.Name = "saveConfigData";
-            this.saveConfigData.Size = new System.Drawing.Size(75, 23);
-            this.saveConfigData.TabIndex = 5;
-            this.saveConfigData.Text = "Save";
-            this.saveConfigData.UseVisualStyleBackColor = true;
-            this.saveConfigData.Click += new System.EventHandler(this.saveConfigData_Click);
+            this.openFileDialogConfig.FileName = ".\\config.txt";
             // 
             // Form1
             // 

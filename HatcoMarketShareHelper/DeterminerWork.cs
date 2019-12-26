@@ -35,14 +35,34 @@ namespace HatcoMarketShareHelper
                 //
                 // For addressMatch and ownerMatch: 0 = no match,
                 // 1 = likely a match, 2 = definitely a match
+                bool zipMatch = false;
                 bool dateClosedMatch = false;
                 int addressMatch = 0;
                 int ownerMatch = 0;
                 int closedGFNumRow = 2;
                 List<int> consideredRowsAIM = new List<int>();
 
+                /// determine if zip codes are a match
+                if (xlRangeMLS.Cells[currentMLSFile, relevantCols["MLSZipCol"]].Value2 != null)
+                {
+                    for (int currentAIMFile = 2; currentAIMFile <= rangeCount["rowCountAIM"]; currentAIMFile++)
+                    {
+                        if (xlRangeAIM.Cells[currentAIMFile, relevantCols["AIMZipCol"]].Value2 != null)
+                        {
+                            string MLSZip = xlRangeMLS.Cells[currentMLSFile, relevantCols["MLSZipCol"]].Value2.ToString();
+                            string AIMZip = xlRangeAIM.Cells[currentAIMFile, relevantCols["AIMZipCol"]].Value2.ToString();
+
+                            if (MLSZip == AIMZip)
+                            {
+                                consideredRowsAIM.Add(currentAIMFile); // add the current AIM file row to the list of considered AIM rows
+                                zipMatch = true;
+                            }
+                        }
+                    }
+                }
+
                 /// determine if date closed is a match
-                if (xlRangeMLS.Cells[currentMLSFile, relevantCols["MLSCloseDateCol"]].Value2 != null) // check that the next MLS close date cell is not empty
+                if (zipMatch && xlRangeMLS.Cells[currentMLSFile, relevantCols["MLSCloseDateCol"]].Value2 != null) // check that the next MLS close date cell is not empty
                 {
                     // parse MLS close date into a DateTime struct
                     string MLSRawCloseDate = xlRangeMLS.Cells[currentMLSFile, relevantCols["MLSCloseDateCol"]].Value.ToString();
@@ -58,17 +78,20 @@ namespace HatcoMarketShareHelper
 
                             if ((MLSCloseDate - AIMCloseDate).TotalDays <= 15) // check that the two close dates are within 15 days of each other
                             {
-                                consideredRowsAIM.Add(currentAIMFile); // add the current AIM file row to the list of considered AIM rows
                                 dateClosedMatch = true;
                                 //Console.WriteLine("Found match in days between row " + currentMLSFile
                                 //    + " in MLS xl file and row " + currentAIMFile + " in AIM xl file");
                             }
+                            else
+                                consideredRowsAIM.Remove(currentAIMFile);
                         }
+                        else
+                            consideredRowsAIM.Remove(currentAIMFile);
                     }
                 }
 
                 /// determine if owner/seller name are a match only if date closed and addrees are already a match
-                if (dateClosedMatch && xlRangeMLS.Cells[currentMLSFile, relevantCols["MLSOwnerCol"]].Value2 != null)
+                if (zipMatch && dateClosedMatch && xlRangeMLS.Cells[currentMLSFile, relevantCols["MLSOwnerCol"]].Value2 != null)
                 {
                     for (int currentAIMFile = 2; currentAIMFile <= rangeCount["rowCountAIM"]; currentAIMFile++)
                     {
@@ -176,7 +199,7 @@ namespace HatcoMarketShareHelper
                 }
 
                 /// determine if property addresses are a match only if date closed is already a match
-                if (dateClosedMatch && ownerMatch > 0 && xlRangeMLS.Cells[currentMLSFile, relevantCols["MLSAddressCol"]].Value2 != null)
+                if (zipMatch && dateClosedMatch && ownerMatch > 0 && xlRangeMLS.Cells[currentMLSFile, relevantCols["MLSAddressCol"]].Value2 != null)
                 {
                     for (int currentAIMFile = 2; currentAIMFile <= rangeCount["rowCountAIM"]; currentAIMFile++)
                     {
@@ -251,7 +274,7 @@ namespace HatcoMarketShareHelper
                 }
 
                 /// determine whether the file was closed with hatco or not and print to xl file
-                if (dateClosedMatch && addressMatch == 2 && ownerMatch == 2)
+                if (zipMatch && dateClosedMatch && addressMatch == 2 && ownerMatch == 2)
                 {
                     string closedGF = xlRangeAIM.Cells[closedGFNumRow, relevantCols["AIMFileNoCol"]].Value.ToString();
                     string escrOff = xlRangeAIM.Cells[closedGFNumRow, relevantCols["AIMEscrowCol"]].Value.ToString();
@@ -260,7 +283,7 @@ namespace HatcoMarketShareHelper
                     Console.WriteLine("File on row " + currentMLSFile + " of MLS xl file closed with GF #"
                         + closedGF);
                 }
-                else if (dateClosedMatch && addressMatch > 0 && ownerMatch > 0)
+                else if (zipMatch && dateClosedMatch && addressMatch > 0 && ownerMatch > 0)
                 {
                     string closedGF = xlRangeAIM.Cells[closedGFNumRow, relevantCols["AIMFileNoCol"]].Value.ToString();
                     string escrOff = xlRangeAIM.Cells[closedGFNumRow, relevantCols["AIMEscrowCol"]].Value.ToString();

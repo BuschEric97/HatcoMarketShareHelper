@@ -75,11 +75,13 @@ namespace HatcoMarketShareHelper
                     relevantCols.Add("MLSAddressCol", 0);
                     relevantCols.Add("MLSCloseDateCol", 0);
                     relevantCols.Add("MLSGFCol", 0);
+                    relevantCols.Add("MLSZipCol", 0);
                     relevantCols.Add("AIMFileNoCol", 0);
                     relevantCols.Add("AIMCloseDateCol", 0);
                     relevantCols.Add("AIMAddressCol", 0);
                     relevantCols.Add("AIMSellerCol", 0);
                     relevantCols.Add("AIMEscrowCol", 0);
+                    relevantCols.Add("AIMZipCol", 0);
 
                     // determine the columns in MLS file that have relevant information
                     for (int i = 1; i <= rangeCount["colCountMLS"]; i++)
@@ -94,6 +96,8 @@ namespace HatcoMarketShareHelper
                                 relevantCols["MLSCloseDateCol"] = i;
                             else if (xlRangeMLS.Cells[1, i].Value2.ToString().Contains("GF"))
                                 relevantCols["MLSGFCol"] = i;
+                            else if (xlRangeMLS.Cells[1, i].Value2.ToString().Contains("Zip"))
+                                relevantCols["MLSZipCol"] = i;
                         }
                     }
 
@@ -112,6 +116,8 @@ namespace HatcoMarketShareHelper
                                 relevantCols["AIMSellerCol"] = i;
                             else if (xlRangeAIM.Cells[1, i].Value2.ToString().Contains("Escrow"))
                                 relevantCols["AIMEscrowCol"] = i;
+                            else if (xlRangeAIM.Cells[1, i].Value2.ToString().Contains("Zip"))
+                                relevantCols["AIMZipCol"] = i;
                         }
                     }
 
