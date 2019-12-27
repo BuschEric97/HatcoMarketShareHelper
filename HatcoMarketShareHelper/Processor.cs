@@ -42,10 +42,8 @@ namespace HatcoMarketShareHelper
                 if (runAsCapstone)
                 {
                     xlWorkbookMLS.Sheets.Add(After: xlWorkbookMLS.Sheets[xlWorkbookMLS.Sheets.Count],
-                        Count: (2 + specificAreas.Count));
-                    xlWorkbookMLS.Sheets[4].Name = "RegionAll";
-                    xlWorkbookMLS.Sheets[5].Name = "ZipAll";
-                    for (int i = 6, j = 0; i <= xlWorkbookMLS.Sheets.Count; i++, j++)
+                        Count: (specificAreas.Count));
+                    for (int i = 4, j = 0; i <= xlWorkbookMLS.Sheets.Count; i++, j++)
                     {
                         xlWorkbookMLS.Sheets[i].Name = specificAreas.ElementAt(j).Key;
                     }
@@ -79,7 +77,6 @@ namespace HatcoMarketShareHelper
                     relevantCols.Add("MLSGFCol1", 0);
                     relevantCols.Add("MLSEscrowCol1", 0);
                     relevantCols.Add("MLSRegionCol1", 0);
-                    relevantCols.Add("MLSHighSchoolCol1", 0);
                     relevantCols.Add("MLSTitleCoCol1", 0);
                     // relevant columns indeces for sheet 2
                     relevantCols.Add("MLSAgentCol2", 1);
@@ -93,13 +90,12 @@ namespace HatcoMarketShareHelper
                     relevantCols.Add("MLSGFCol2", 9);
                     relevantCols.Add("MLSEscrowCol2", 10);
                     relevantCols.Add("MLSRegionCol2", 11);
-                    relevantCols.Add("MLSHighSchoolCol2", 12);
-                    relevantCols.Add("MLSTitleCoCol2", 13);
-                    relevantCols.Add("MLSAsSACol2", 14);
-                    relevantCols.Add("MLSClosingsCol2", 15);
-                    relevantCols.Add("MLSTCCloseCol2", 16);
-                    relevantCols.Add("MLSBSClosingCol2", 17);
-                    relevantCols.Add("MLSBSTCCloseCol2", 18);
+                    relevantCols.Add("MLSTitleCoCol2", 12);
+                    relevantCols.Add("MLSAsSACol2", 13);
+                    relevantCols.Add("MLSClosingsCol2", 14);
+                    relevantCols.Add("MLSTCCloseCol2", 15);
+                    relevantCols.Add("MLSBSClosingCol2", 16);
+                    relevantCols.Add("MLSBSTCCloseCol2", 17);
                     // relevant columns indeces for sheet 3
                     relevantCols.Add("MLSAgentCol3", 1);
                     relevantCols.Add("MLSOfficeCol3", 2);
@@ -112,13 +108,12 @@ namespace HatcoMarketShareHelper
                     relevantCols.Add("MLSGFCol3", 9);
                     relevantCols.Add("MLSEscrowCol3", 10);
                     relevantCols.Add("MLSRegionCol3", 11);
-                    relevantCols.Add("MLSHighSchoolCol3", 12);
-                    relevantCols.Add("MLSTitleCoCol3", 13);
-                    relevantCols.Add("MLSAsSACol3", 14);
-                    relevantCols.Add("MLSClosingsCol3", 15);
-                    relevantCols.Add("MLSTCCloseCol3", 16);
-                    relevantCols.Add("MLSBSClosingCol3", 17);
-                    relevantCols.Add("MLSBSTCCloseCol3", 18);
+                    relevantCols.Add("MLSTitleCoCol3", 12);
+                    relevantCols.Add("MLSAsSACol3", 13);
+                    relevantCols.Add("MLSClosingsCol3", 14);
+                    relevantCols.Add("MLSTCCloseCol3", 15);
+                    relevantCols.Add("MLSBSClosingCol3", 16);
+                    relevantCols.Add("MLSBSTCCloseCol3", 17);
 
                     // determine the columns in MLS file sheet 1 that have relevant information
                     for (int i = 1; i <= rangeCount["colCount1MLS"]; i++)
@@ -129,11 +124,11 @@ namespace HatcoMarketShareHelper
 
                             if (currHeaderCell.Contains("selling agent"))
                                 relevantCols["MLSSellAgentCol1"] = i;
-                            else if (currHeaderCell.Contains("selling office"))
+                            else if (currHeaderCell.Contains("sa") && currHeaderCell.Contains("office"))
                                 relevantCols["MLSSellOfficeCol1"] = i;
                             else if (currHeaderCell.Contains("listing agent"))
                                 relevantCols["MLSListAgentCol1"] = i;
-                            else if (currHeaderCell.Contains("listing office"))
+                            else if (currHeaderCell.Contains("la") && currHeaderCell.Contains("office"))
                                 relevantCols["MLSListOfficeCol1"] = i;
                             else if (currHeaderCell.Contains("owner"))
                                 relevantCols["MLSOwnerCol1"] = i;
@@ -153,8 +148,6 @@ namespace HatcoMarketShareHelper
                                 relevantCols["MLSEscrowCol1"] = i;
                             else if (currHeaderCell.Contains("region"))
                                 relevantCols["MLSRegionCol1"] = i;
-                            else if (currHeaderCell.Contains("school"))
-                                relevantCols["MLSHighSchoolCol1"] = i;
                             else if (currHeaderCell.Contains("title"))
                                 relevantCols["MLSTitleCoCol1"] = i;
                         }
@@ -172,13 +165,12 @@ namespace HatcoMarketShareHelper
                     xlWorkbookMLS.Sheets[2].Cells[1, 9].Value = "GF #";
                     xlWorkbookMLS.Sheets[2].Cells[1, 10].Value = "Escrow Officer";
                     xlWorkbookMLS.Sheets[2].Cells[1, 11].Value = "Region";
-                    xlWorkbookMLS.Sheets[2].Cells[1, 12].Value = "High School";
-                    xlWorkbookMLS.Sheets[2].Cells[1, 13].Value = "Title Company";
-                    xlWorkbookMLS.Sheets[2].Cells[1, 14].Value = "As SA";
-                    xlWorkbookMLS.Sheets[2].Cells[1, 15].Value = "Closings";
-                    xlWorkbookMLS.Sheets[2].Cells[1, 16].Value = "TC Close";
-                    xlWorkbookMLS.Sheets[2].Cells[1, 17].Value = "BS Closings";
-                    xlWorkbookMLS.Sheets[2].Cells[1, 18].Value = "BS TC Close";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 12].Value = "Title Company";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 13].Value = "As SA";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 14].Value = "Closings";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 15].Value = "TC Close";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 16].Value = "BS Closings";
+                    xlWorkbookMLS.Sheets[2].Cells[1, 17].Value = "BS TC Close";
 
                     xlWorkbookMLS.Sheets[3].Cells[1, 1].Value = "Agent Name";
                     xlWorkbookMLS.Sheets[3].Cells[1, 2].Value = "Agent Office";
@@ -191,18 +183,17 @@ namespace HatcoMarketShareHelper
                     xlWorkbookMLS.Sheets[3].Cells[1, 9].Value = "GF #";
                     xlWorkbookMLS.Sheets[3].Cells[1, 10].Value = "Escrow Officer";
                     xlWorkbookMLS.Sheets[3].Cells[1, 11].Value = "Region";
-                    xlWorkbookMLS.Sheets[3].Cells[1, 12].Value = "High School";
-                    xlWorkbookMLS.Sheets[3].Cells[1, 13].Value = "Title Company";
-                    xlWorkbookMLS.Sheets[3].Cells[1, 14].Value = "As SA";
-                    xlWorkbookMLS.Sheets[3].Cells[1, 15].Value = "Closings";
-                    xlWorkbookMLS.Sheets[3].Cells[1, 16].Value = "TC Close";
-                    xlWorkbookMLS.Sheets[3].Cells[1, 17].Value = "BS Closings";
-                    xlWorkbookMLS.Sheets[3].Cells[1, 18].Value = "BS TC Close";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 12].Value = "Title Company";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 13].Value = "As SA";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 14].Value = "Closings";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 15].Value = "TC Close";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 16].Value = "BS Closings";
+                    xlWorkbookMLS.Sheets[3].Cells[1, 17].Value = "BS TC Close";
 
                     ProcessorWork proc = new ProcessorWork();
-                    proc.processorWork(xlWorksheet1MLS, xlWorksheet2MLS, xlWorksheet3MLS,
-                        rangeCount, relevantCols, includeNonMLS, runAsCapstone, doSubtotals,
-                        specificAreas, progress, form);
+                    proc.processorWork(xlWorkbookMLS, xlWorksheet1MLS, xlWorksheet2MLS,
+                        xlWorksheet3MLS, rangeCount, relevantCols, includeNonMLS,
+                        runAsCapstone, doSubtotals, specificAreas, progress, form);
                 }
                 catch (Exception ex) // if an exception is caught, close the excel files so they aren't held hostage
                 {

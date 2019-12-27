@@ -12,7 +12,7 @@ namespace HatcoMarketShareHelper
 {
     class ProcessorWork
     {
-        public void processorWork(Excel._Worksheet xlWorksheet1MLS, Excel._Worksheet xlWorksheet2MLS,
+        public void processorWork(Excel.Workbook xlWorkbookMLS, Excel._Worksheet xlWorksheet1MLS, Excel._Worksheet xlWorksheet2MLS,
             Excel._Worksheet xlWorksheet3MLS,  Dictionary<string, int> rangeCount, Dictionary<string, int> relevantCols,
             bool includeNonMLS, bool runAsCapstone, bool doSubtotals, Dictionary<string, string[]> specificAreas,
             IProgress<int> progress, Form1 form)
@@ -62,7 +62,6 @@ namespace HatcoMarketShareHelper
 
                 string zip = "";
                 string region = "";
-                string highSchool = "";
                 string titleCo = "";
                 if (runAsCapstone)
                 {
@@ -70,8 +69,6 @@ namespace HatcoMarketShareHelper
                         zip = xlRange1MLS.Cells[sheet1CurrRow, relevantCols["MLSZipCol1"]].Value.ToString();
                     if (xlRange1MLS.Cells[sheet1CurrRow, relevantCols["MLSRegionCol1"]].Value != null)
                         region = xlRange1MLS.Cells[sheet1CurrRow, relevantCols["MLSRegionCol1"]].Value.ToString();
-                    if (xlRange1MLS.Cells[sheet1CurrRow, relevantCols["MLSHighSchoolCol1"]].Value != null)
-                        highSchool = xlRange1MLS.Cells[sheet1CurrRow, relevantCols["MLSHighSchoolCol1"]].Value.ToString();
                     if (xlRange1MLS.Cells[sheet1CurrRow, relevantCols["MLSTitleCoCol1"]].Value != null)
                         titleCo = xlRange1MLS.Cells[sheet1CurrRow, relevantCols["MLSTitleCoCol1"]].Value.ToString();
                 }
@@ -117,8 +114,6 @@ namespace HatcoMarketShareHelper
                                 = zip;
                             xlRange2MLS.Cells[sheet2CurrRow, relevantCols["MLSRegionCol2"]].Value
                                 = region;
-                            xlRange2MLS.Cells[sheet2CurrRow, relevantCols["MLSHighSchoolCol2"]].Value
-                                = highSchool;
                             xlRange2MLS.Cells[sheet2CurrRow, relevantCols["MLSTitleCoCol2"]].Value
                                 = titleCo;
                         }
@@ -165,8 +160,6 @@ namespace HatcoMarketShareHelper
                                 = zip;
                             xlRange2MLS.Cells[sheet2CurrRow, relevantCols["MLSRegionCol2"]].Value
                                 = region;
-                            xlRange2MLS.Cells[sheet2CurrRow, relevantCols["MLSHighSchoolCol2"]].Value
-                                = highSchool;
                             xlRange2MLS.Cells[sheet2CurrRow, relevantCols["MLSTitleCoCol2"]].Value
                                 = titleCo;
                         }
@@ -211,8 +204,6 @@ namespace HatcoMarketShareHelper
                                 = zip;
                             xlRange2MLS.Cells[sheet2CurrRow, relevantCols["MLSRegionCol2"]].Value
                                 = region;
-                            xlRange2MLS.Cells[sheet2CurrRow, relevantCols["MLSHighSchoolCol2"]].Value
-                                = highSchool;
                             xlRange2MLS.Cells[sheet2CurrRow, relevantCols["MLSTitleCoCol2"]].Value
                                 = titleCo;
                         }
@@ -261,8 +252,6 @@ namespace HatcoMarketShareHelper
                                 = zip;
                             xlRange3MLS.Cells[sheet2CurrRow, relevantCols["MLSRegionCol3"]].Value
                                 = region;
-                            xlRange3MLS.Cells[sheet2CurrRow, relevantCols["MLSHighSchoolCol3"]].Value
-                                = highSchool;
                             xlRange3MLS.Cells[sheet2CurrRow, relevantCols["MLSTitleCoCol3"]].Value
                                 = titleCo;
                         }
@@ -309,8 +298,6 @@ namespace HatcoMarketShareHelper
                                 = zip;
                             xlRange3MLS.Cells[sheet2CurrRow, relevantCols["MLSRegionCol3"]].Value
                                 = region;
-                            xlRange3MLS.Cells[sheet2CurrRow, relevantCols["MLSHighSchoolCol3"]].Value
-                                = highSchool;
                             xlRange3MLS.Cells[sheet2CurrRow, relevantCols["MLSTitleCoCol3"]].Value
                                 = titleCo;
                         }
@@ -355,8 +342,6 @@ namespace HatcoMarketShareHelper
                                 = zip;
                             xlRange3MLS.Cells[sheet2CurrRow, relevantCols["MLSRegionCol3"]].Value
                                 = region;
-                            xlRange3MLS.Cells[sheet2CurrRow, relevantCols["MLSHighSchoolCol3"]].Value
-                                = highSchool;
                             xlRange3MLS.Cells[sheet2CurrRow, relevantCols["MLSTitleCoCol3"]].Value
                                 = titleCo;
                         }
@@ -376,25 +361,116 @@ namespace HatcoMarketShareHelper
                 form.Invoke(inv);
             }
 
+            Excel._Worksheet xlWorksheet4MLS = null;
+            if (runAsCapstone)
+            {
+                // create ZipAll worksheet as copy of sheet 2
+                xlWorksheet2MLS.Copy(After: xlWorksheet3MLS); // copy worksheet 2 and place it after worksheet 3
+                xlWorksheet4MLS = xlWorkbookMLS.Sheets[4];
+                xlWorksheet4MLS.Name = "ZipAll";
+
+                // fill in all the area sheets based of zip code groups (from config file)
+                for (int currAreaSheet = 5, currAreaGroup = 0;
+                    currAreaSheet <= xlWorkbookMLS.Sheets.Count; currAreaSheet++, currAreaGroup++)
+                {
+                    Excel.Range initFrom = xlWorksheet2MLS.Range[xlWorksheet2MLS.Cells[1, 1], // copy-from row location
+                        xlWorksheet2MLS.Cells[1, xlWorksheet2MLS.UsedRange.Columns.Count]];
+                    Excel.Range initTo = // copy-to row location
+                        xlWorkbookMLS.Sheets[currAreaSheet].Range[xlWorkbookMLS.Sheets[currAreaSheet].Cells[1, 1],
+                        xlWorkbookMLS.Sheets[currAreaSheet].Cells[1, xlWorksheet2MLS.UsedRange.Columns.Count]];
+                    initFrom.Copy(initTo); // copy header from sheet 2 to current area sheet
+
+                    // copy over the rows that match the current zip code group
+                    int currAreaSheetRow = 2;
+                    string currAreaSheetName = xlWorkbookMLS.Sheets[currAreaSheet].Name;
+                    for (int currRecord = 2; currRecord <= xlWorksheet2MLS.UsedRange.Rows.Count;
+                        currRecord++)
+                    {
+                        string currZip =
+                            xlWorksheet2MLS.Cells[currRecord, relevantCols["MLSZipCol2"]].Value.ToString();
+                        if (specificAreas[currAreaSheetName].Any(s => currZip.Contains(s))) // if currZip matches any zip from the current area group
+                        {
+                            Excel.Range currFrom = xlWorksheet2MLS.Range[
+                                    xlWorksheet2MLS.Cells[currRecord, 1], // copy-from row location
+                                    xlWorksheet2MLS.Cells[currRecord, xlWorksheet2MLS.UsedRange.Columns.Count]
+                                ];
+                            Excel.Range currTo = // copy-to row location
+                                xlWorkbookMLS.Sheets[currAreaSheet].Range[
+                                    xlWorkbookMLS.Sheets[currAreaSheet].Cells[currAreaSheetRow, 1],
+                                    xlWorkbookMLS.Sheets[currAreaSheet].Cells[currAreaSheetRow, xlWorksheet2MLS.UsedRange.Columns.Count]
+                                ];
+                            currFrom.Copy(currTo); // copy currRecord from sheet 2 to the current area sheet
+                            currAreaSheetRow++;
+                        }
+                    }
+
+                    // sort and do subtotals if needed
+                    if (doSubtotals)
+                    {
+                        // sort the current area sheet
+                        xlWorkbookMLS.Sheets[currAreaSheet].Sort.SetRange(xlWorkbookMLS.Sheets[currAreaSheet].UsedRange);
+                        xlWorkbookMLS.Sheets[currAreaSheet].Sort.Header = Excel.XlYesNoGuess.xlYes;
+                        xlWorkbookMLS.Sheets[currAreaSheet].Sort.SortFields.Add(
+                                xlWorkbookMLS.Sheets[currAreaSheet].UsedRange.Columns[relevantCols["MLSAgentCol2"]],
+                                Excel.XlSortOn.xlSortOnValues,
+                                Excel.XlSortOrder.xlAscending
+                            );
+                        xlWorkbookMLS.Sheets[currAreaSheet].Sort.Apply();
+
+                        int[] subtotalCols =
+                        {
+                            relevantCols["MLSPriceCol2"],
+                            relevantCols["MLSAsSACol2"],
+                            relevantCols["MLSClosingsCol2"],
+                            relevantCols["MLSTCCloseCol2"],
+                            relevantCols["MLSBSClosingCol2"],
+                            relevantCols["MLSBSTCCloseCol2"]
+                        };
+                        xlWorkbookMLS.Sheets[currAreaSheet].UsedRange.Subtotal(relevantCols["MLSAgentCol2"],
+                            Excel.XlConsolidationFunction.xlSum, subtotalCols);
+                    }
+                }
+            }
+
+            // sort and do subtotals if needed
             if (doSubtotals)
             {
                 // sort worksheets 2 & 3 by agent names
                 xlWorksheet2MLS.Sort.SetRange(xlWorksheet2MLS.UsedRange);
                 xlWorksheet2MLS.Sort.Header = Excel.XlYesNoGuess.xlYes;
                 xlWorksheet2MLS.Sort.SortFields.Add(
-                        xlRange2MLS.Columns[1],
+                        xlRange2MLS.Columns[relevantCols["MLSAgentCol2"]],
                         Excel.XlSortOn.xlSortOnValues,
                         Excel.XlSortOrder.xlAscending
                     );
                 xlWorksheet3MLS.Sort.SetRange(xlWorksheet3MLS.UsedRange);
                 xlWorksheet3MLS.Sort.Header = Excel.XlYesNoGuess.xlYes;
                 xlWorksheet3MLS.Sort.SortFields.Add(
-                        xlRange3MLS.Columns[1],
+                        xlRange3MLS.Columns[relevantCols["MLSAgentCol3"]],
                         Excel.XlSortOn.xlSortOnValues,
                         Excel.XlSortOrder.xlAscending
                     );
                 xlWorksheet2MLS.Sort.Apply();
                 xlWorksheet3MLS.Sort.Apply();
+
+                if (runAsCapstone)
+                {
+                    //xlWorksheet4MLS.Sort.SetRange(xlWorksheet4MLS.UsedRange);
+                    //xlWorksheet4MLS.Sort.Header = Excel.XlYesNoGuess.xlYes;
+                    //xlWorksheet4MLS.Sort.SortFields.Add(
+                    //        xlWorksheet4MLS.UsedRange.Columns[relevantCols["MLSZipCol2"]],
+                    //        Excel.XlSortOn.xlSortOnValues,
+                    //        Excel.XlSortOrder.xlAscending
+                    //    );
+                    //xlWorksheet4MLS.Sort.Apply();
+                    xlWorksheet4MLS.Range[
+                            xlWorksheet4MLS.Cells[2,1],
+                            xlWorksheet4MLS.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell)
+                        ].Sort(
+                            Key1:xlWorksheet4MLS.UsedRange.Columns[relevantCols["MLSZipCol2"]],
+                            Key2:xlWorksheet4MLS.UsedRange.Columns[relevantCols["MLSAgentCol2"]]
+                        );
+                }
 
                 //create subtotals on the sorted data in worksheets 2 & 3
                 int[] subtotalCols2 =
@@ -415,8 +491,43 @@ namespace HatcoMarketShareHelper
                     relevantCols["MLSBSClosingCol3"],
                     relevantCols["MLSBSTCCloseCol3"],
                 };
-                xlWorksheet2MLS.UsedRange.Subtotal(1, Excel.XlConsolidationFunction.xlSum, subtotalCols2);
-                xlWorksheet3MLS.UsedRange.Subtotal(1, Excel.XlConsolidationFunction.xlSum, subtotalCols3);
+                xlWorksheet2MLS.UsedRange.Subtotal(relevantCols["MLSAgentCol2"],
+                    Excel.XlConsolidationFunction.xlSum, subtotalCols2);
+                xlWorksheet3MLS.UsedRange.Subtotal(relevantCols["MLSAgentCol3"],
+                    Excel.XlConsolidationFunction.xlSum, subtotalCols3);
+
+                if (runAsCapstone)
+                {
+                    int[] subtotalCols4 =
+                    {
+                        relevantCols["MLSPriceCol2"],
+                        relevantCols["MLSAsSACol2"],
+                        relevantCols["MLSClosingsCol2"],
+                        relevantCols["MLSTCCloseCol2"],
+                        relevantCols["MLSBSClosingCol2"],
+                        relevantCols["MLSBSTCCloseCol2"]
+                    };
+                    xlWorksheet4MLS.UsedRange.Subtotal(relevantCols["MLSAgentCol2"],
+                        Excel.XlConsolidationFunction.xlSum, subtotalCols4);
+                }
+            }
+
+            // format the close date columns of every sheet as a date
+            xlWorksheet2MLS.Columns[relevantCols["MLSCloseDateCol2"]].NumberFormat = "MM/DD/YYYY";
+            xlWorksheet3MLS.Columns[relevantCols["MLSCloseDateCol3"]].NumberFormat = "MM/DD/YYYY";
+            if (runAsCapstone)
+            {
+                for (int i = 4; i <= xlWorkbookMLS.Sheets.Count; i++)
+                    xlWorkbookMLS.Sheets[i].Columns[relevantCols["MLSCloseDateCol2"]].NumberFormat = "MM/DD/YYYY";
+            }
+
+            // format the price columns of every sheet as money
+            xlWorksheet2MLS.Columns[relevantCols["MLSPriceCol2"]].NumberFormat = "$ #,###,###.00";
+            xlWorksheet3MLS.Columns[relevantCols["MLSPriceCol3"]].NumberFormat = "$ #,###,###.00";
+            if (runAsCapstone)
+            {
+                for (int i = 4; i <= xlWorkbookMLS.Sheets.Count; i++)
+                    xlWorkbookMLS.Sheets[i].Columns[relevantCols["MLSPriceCol2"]].NumberFormat = "$ #,###,###.00";
             }
         }
     }
