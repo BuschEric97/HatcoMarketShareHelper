@@ -95,6 +95,9 @@
             // 
             // tabControl1
             // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.homeTab);
             this.tabControl1.Controls.Add(this.optionsTab);
             this.tabControl1.Controls.Add(this.configTab);
@@ -126,18 +129,21 @@
             this.panel4.Controls.Add(this.runDeterminer);
             this.panel4.Controls.Add(this.determinerProgressDetailed);
             this.panel4.Controls.Add(this.label6);
-            this.panel4.Location = new System.Drawing.Point(8, 7);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel4.Location = new System.Drawing.Point(4, 250);
             this.panel4.Margin = new System.Windows.Forms.Padding(4);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1006, 227);
+            this.panel4.Size = new System.Drawing.Size(1017, 240);
             this.panel4.TabIndex = 6;
             // 
             // determinerProgressBar
             // 
-            this.determinerProgressBar.Location = new System.Drawing.Point(4, 193);
+            this.determinerProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.determinerProgressBar.Location = new System.Drawing.Point(4, 206);
             this.determinerProgressBar.Margin = new System.Windows.Forms.Padding(4);
             this.determinerProgressBar.Name = "determinerProgressBar";
-            this.determinerProgressBar.Size = new System.Drawing.Size(996, 28);
+            this.determinerProgressBar.Size = new System.Drawing.Size(1007, 28);
             this.determinerProgressBar.TabIndex = 4;
             // 
             // label1
@@ -190,18 +196,21 @@
             this.panel5.Controls.Add(this.processorProgressDetailed);
             this.panel5.Controls.Add(this.runProcessor);
             this.panel5.Controls.Add(this.label7);
-            this.panel5.Location = new System.Drawing.Point(8, 239);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel5.Location = new System.Drawing.Point(4, 4);
             this.panel5.Margin = new System.Windows.Forms.Padding(4);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(1006, 244);
+            this.panel5.Size = new System.Drawing.Size(1017, 246);
             this.panel5.TabIndex = 7;
             // 
             // processorProgressBar
             // 
-            this.processorProgressBar.Location = new System.Drawing.Point(4, 210);
+            this.processorProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.processorProgressBar.Location = new System.Drawing.Point(4, 212);
             this.processorProgressBar.Margin = new System.Windows.Forms.Padding(4);
             this.processorProgressBar.Name = "processorProgressBar";
-            this.processorProgressBar.Size = new System.Drawing.Size(996, 28);
+            this.processorProgressBar.Size = new System.Drawing.Size(1007, 28);
             this.processorProgressBar.TabIndex = 7;
             // 
             // label2
@@ -277,15 +286,16 @@
             this.panel1.Controls.Add(this.AIMInputFile);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label4);
-            this.panel1.Location = new System.Drawing.Point(8, 7);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(4, 4);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1006, 249);
+            this.panel1.Size = new System.Drawing.Size(1017, 252);
             this.panel1.TabIndex = 11;
             // 
             // setNumThreads
             // 
-            this.setNumThreads.Location = new System.Drawing.Point(50, 216);
+            this.setNumThreads.Location = new System.Drawing.Point(50, 217);
             this.setNumThreads.Name = "setNumThreads";
             this.setNumThreads.Size = new System.Drawing.Size(163, 23);
             this.setNumThreads.TabIndex = 12;
@@ -340,13 +350,13 @@
             this.MLSInputFile_Determiner.Location = new System.Drawing.Point(4, 70);
             this.MLSInputFile_Determiner.Margin = new System.Windows.Forms.Padding(4);
             this.MLSInputFile_Determiner.Name = "MLSInputFile_Determiner";
-            this.MLSInputFile_Determiner.Size = new System.Drawing.Size(723, 22);
+            this.MLSInputFile_Determiner.Size = new System.Drawing.Size(888, 22);
             this.MLSInputFile_Determiner.TabIndex = 0;
             this.MLSInputFile_Determiner.Text = "C:\\MLSData.xlsx";
             // 
             // openMLSFile_Determiner
             // 
-            this.openMLSFile_Determiner.Location = new System.Drawing.Point(736, 68);
+            this.openMLSFile_Determiner.Location = new System.Drawing.Point(900, 67);
             this.openMLSFile_Determiner.Margin = new System.Windows.Forms.Padding(4);
             this.openMLSFile_Determiner.Name = "openMLSFile_Determiner";
             this.openMLSFile_Determiner.Size = new System.Drawing.Size(100, 28);
@@ -357,7 +367,7 @@
             // 
             // openAIMFile
             // 
-            this.openAIMFile.Location = new System.Drawing.Point(736, 140);
+            this.openAIMFile.Location = new System.Drawing.Point(900, 140);
             this.openAIMFile.Margin = new System.Windows.Forms.Padding(4);
             this.openAIMFile.Name = "openAIMFile";
             this.openAIMFile.Size = new System.Drawing.Size(100, 28);
@@ -371,7 +381,7 @@
             this.AIMInputFile.Location = new System.Drawing.Point(4, 143);
             this.AIMInputFile.Margin = new System.Windows.Forms.Padding(4);
             this.AIMInputFile.Name = "AIMInputFile";
-            this.AIMInputFile.Size = new System.Drawing.Size(723, 22);
+            this.AIMInputFile.Size = new System.Drawing.Size(888, 22);
             this.AIMInputFile.TabIndex = 2;
             this.AIMInputFile.Text = "C:\\AIMData.xlsx";
             // 
@@ -397,16 +407,19 @@
             // 
             // panel2
             // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.label9);
             this.panel2.Controls.Add(this.MLSInputFile_Processor);
             this.panel2.Controls.Add(this.includeNonMLSAgent);
             this.panel2.Controls.Add(this.openMLSFile_Processor);
             this.panel2.Controls.Add(this.label5);
-            this.panel2.Location = new System.Drawing.Point(8, 254);
+            this.panel2.Location = new System.Drawing.Point(4, 254);
             this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1006, 152);
+            this.panel2.Size = new System.Drawing.Size(1017, 152);
             this.panel2.TabIndex = 12;
             // 
             // label9
@@ -425,7 +438,7 @@
             this.MLSInputFile_Processor.Location = new System.Drawing.Point(4, 73);
             this.MLSInputFile_Processor.Margin = new System.Windows.Forms.Padding(4);
             this.MLSInputFile_Processor.Name = "MLSInputFile_Processor";
-            this.MLSInputFile_Processor.Size = new System.Drawing.Size(723, 22);
+            this.MLSInputFile_Processor.Size = new System.Drawing.Size(888, 22);
             this.MLSInputFile_Processor.TabIndex = 4;
             this.MLSInputFile_Processor.Text = "C:\\MLSData.xlsx";
             // 
@@ -434,7 +447,7 @@
             this.includeNonMLSAgent.AutoSize = true;
             this.includeNonMLSAgent.Checked = true;
             this.includeNonMLSAgent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.includeNonMLSAgent.Location = new System.Drawing.Point(4, 126);
+            this.includeNonMLSAgent.Location = new System.Drawing.Point(4, 125);
             this.includeNonMLSAgent.Margin = new System.Windows.Forms.Padding(4);
             this.includeNonMLSAgent.Name = "includeNonMLSAgent";
             this.includeNonMLSAgent.Size = new System.Drawing.Size(179, 21);
@@ -444,7 +457,7 @@
             // 
             // openMLSFile_Processor
             // 
-            this.openMLSFile_Processor.Location = new System.Drawing.Point(736, 70);
+            this.openMLSFile_Processor.Location = new System.Drawing.Point(900, 70);
             this.openMLSFile_Processor.Margin = new System.Windows.Forms.Padding(4);
             this.openMLSFile_Processor.Name = "openMLSFile_Processor";
             this.openMLSFile_Processor.Size = new System.Drawing.Size(100, 28);
@@ -470,10 +483,11 @@
             this.panel3.Controls.Add(this.runAsCapstone);
             this.panel3.Controls.Add(this.label10);
             this.panel3.Controls.Add(this.sameMLSFiles);
-            this.panel3.Location = new System.Drawing.Point(8, 404);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel3.Location = new System.Drawing.Point(4, 404);
             this.panel3.Margin = new System.Windows.Forms.Padding(4);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1006, 79);
+            this.panel3.Size = new System.Drawing.Size(1017, 86);
             this.panel3.TabIndex = 13;
             // 
             // doSubtotals
@@ -671,7 +685,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(364, 197);
+            this.label14.Location = new System.Drawing.Point(361, 197);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(200, 17);
             this.label14.TabIndex = 16;
@@ -684,7 +698,6 @@
             this.ClientSize = new System.Drawing.Size(1067, 554);
             this.Controls.Add(this.tabControl1);
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "HATCo Market Share Helper";
             this.tabControl1.ResumeLayout(false);
