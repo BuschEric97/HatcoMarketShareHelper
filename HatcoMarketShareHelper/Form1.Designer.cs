@@ -684,6 +684,7 @@
             this.ClientSize = new System.Drawing.Size(1067, 554);
             this.Controls.Add(this.tabControl1);
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "HATCo Market Share Helper";
             this.tabControl1.ResumeLayout(false);
