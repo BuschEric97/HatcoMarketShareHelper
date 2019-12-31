@@ -113,84 +113,27 @@ namespace HatcoMarketShareHelper
                             // in the owner string reasonably match with a
                             // word in the seller string
                             bool fnLnMatch = false;
-                            //if (parsedOwner.Length == 1)
-                            //{
-                            //    for (int i = 0; i < parsedSeller.Length; i++)
-                            //        if (StringDistance.GetStringDistance(parsedOwner[0], parsedSeller[i]) <= 1)
-                            //        {
-                            //            fnLnMatch = true;
-                            //            break;
-                            //        }
-                            //}
-                            //else if (parsedOwner.Length == 2)
-                            //{
-                            //    int numMatches = 0; // number of owner words that matched with seller words
 
-                            //    for (int i = 0; i < parsedSeller.Length; i++)
-                            //        if (StringDistance.GetStringDistance(parsedOwner[0], parsedSeller[i]) <= 1)
-                            //        {
-                            //            numMatches++;
-                            //            break;
-                            //        }
-                            //    for (int i = 0; i < parsedSeller.Length; i++)
-                            //        if (StringDistance.GetStringDistance(parsedOwner[1], parsedSeller[i]) <= 1)
-                            //        {
-                            //            numMatches++;
-                            //            break;
-                            //        }
-
-                            //    if (numMatches >= 1)
-                            //        fnLnMatch = true;
-                            //}
-                            //else if (parsedOwner.Length == 3)
-                            //{
-                            //    int numMatches = 0; // number of owner words that matched with seller words
-
-                            //    for (int i = 0; i < parsedSeller.Length; i++)
-                            //        if (StringDistance.GetStringDistance(parsedOwner[0], parsedSeller[i]) <= 1)
-                            //        {
-                            //            numMatches++;
-                            //            break;
-                            //        }
-                            //    for (int i = 0; i < parsedSeller.Length; i++)
-                            //        if (StringDistance.GetStringDistance(parsedOwner[1], parsedSeller[i]) <= 1)
-                            //        {
-                            //            numMatches++;
-                            //            break;
-                            //        }
-                            //    for (int i = 0; i < parsedSeller.Length; i++)
-                            //        if (StringDistance.GetStringDistance(parsedOwner[2], parsedSeller[i]) <= 1)
-                            //        {
-                            //            numMatches++;
-                            //            break;
-                            //        }
-
-                            //    if (numMatches >= 2)
-                            //        fnLnMatch = true;
-                            //}
-                            //else
-                            //{
-                                int numMatches = 0; // number of owner words that matches with seller words
-                                for (int i = 0, j = 1; i < parsedOwner.Length && j <= 3; i++)
-                                {
-                                    if (!((parsedOwner[i].Length == 1) || (parsedOwner[i].Length == 2)
-                                        || (parsedOwner[i].ToLower() == "and"))) // if not a word that should be ignored
-                                    { // words that should be ignored: "and" and words with length 1 or 2
-                                        // go through parsedSeller and check that the current parsedOwner word is contained
-                                        for (int k = 0; k < parsedSeller.Length; k++)
-                                            if (StringDistance.GetStringDistance(parsedOwner[i], parsedSeller[k]) <= 1)
-                                            {
-                                                numMatches++;
-                                                break; // break out of inner for loop
-                                            }
-                                        j++;
-                                    }
+                            int numMatches = 0; // number of owner words that matches with seller words
+                            for (int i = 0, j = 1; i < parsedOwner.Length && j <= 3; i++)
+                            {
+                                if (!((parsedOwner[i].Length == 1) || (parsedOwner[i].Length == 2)
+                                    || (parsedOwner[i].ToLower() == "and"))) // if not a word that should be ignored
+                                { // words that should be ignored: "and" and words with length 1 or 2
+                                    // go through parsedSeller and check that the current parsedOwner word is contained
+                                    for (int k = 0; k < parsedSeller.Length; k++)
+                                        if (StringDistance.GetStringDistance(parsedOwner[i], parsedSeller[k]) <= 1)
+                                        {
+                                            numMatches++;
+                                            break; // break out of inner for loop
+                                        }
+                                    j++;
                                 }
+                            }
 
-                                if ((parsedOwner.Length < 3 && numMatches >= 1) ||
-                                    (parsedOwner.Length >= 3 && numMatches >= 2))
-                                    fnLnMatch = true;
-                            //}
+                            if ((parsedOwner.Length < 3 && numMatches >= 1) ||
+                                (parsedOwner.Length >= 3 && numMatches >= 2))
+                                fnLnMatch = true;
 
                             // check ownerDistance against the percentage threshold of the longer test string to see if it is a match
                             if (fnLnMatch)
