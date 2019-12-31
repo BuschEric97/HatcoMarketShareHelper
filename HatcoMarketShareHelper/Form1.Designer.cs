@@ -44,6 +44,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.optionsTab = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.setNumThreads = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
             this.numThreads = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
@@ -74,7 +75,10 @@
             this.openFileDialogMLS = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogAIM = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogConfig = new System.Windows.Forms.OpenFileDialog();
-            this.setNumThreads = new System.Windows.Forms.Button();
+            this.addressThreshold = new System.Windows.Forms.NumericUpDown();
+            this.label13 = new System.Windows.Forms.Label();
+            this.addressWeakThreshold = new System.Windows.Forms.NumericUpDown();
+            this.label14 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.homeTab.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -85,6 +89,8 @@
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.configTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.addressThreshold)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.addressWeakThreshold)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -257,6 +263,10 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.label14);
+            this.panel1.Controls.Add(this.addressWeakThreshold);
+            this.panel1.Controls.Add(this.label13);
+            this.panel1.Controls.Add(this.addressThreshold);
             this.panel1.Controls.Add(this.setNumThreads);
             this.panel1.Controls.Add(this.label12);
             this.panel1.Controls.Add(this.numThreads);
@@ -272,6 +282,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1006, 249);
             this.panel1.TabIndex = 11;
+            // 
+            // setNumThreads
+            // 
+            this.setNumThreads.Location = new System.Drawing.Point(50, 216);
+            this.setNumThreads.Name = "setNumThreads";
+            this.setNumThreads.Size = new System.Drawing.Size(163, 23);
+            this.setNumThreads.TabIndex = 12;
+            this.setNumThreads.Text = "Set to # of CPU Cores";
+            this.setNumThreads.UseVisualStyleBackColor = true;
+            this.setNumThreads.Click += new System.EventHandler(this.setNumThreads_Click);
             // 
             // label12
             // 
@@ -296,7 +316,7 @@
             0,
             0});
             this.numThreads.Name = "numThreads";
-            this.numThreads.Size = new System.Drawing.Size(120, 22);
+            this.numThreads.Size = new System.Drawing.Size(40, 22);
             this.numThreads.TabIndex = 10;
             this.numThreads.Value = new decimal(new int[] {
             4,
@@ -593,15 +613,69 @@
             // 
             this.openFileDialogConfig.FileName = ".\\config.txt";
             // 
-            // setNumThreads
+            // addressThreshold
             // 
-            this.setNumThreads.Location = new System.Drawing.Point(130, 216);
-            this.setNumThreads.Name = "setNumThreads";
-            this.setNumThreads.Size = new System.Drawing.Size(163, 23);
-            this.setNumThreads.TabIndex = 12;
-            this.setNumThreads.Text = "Set to # of CPU Cores";
-            this.setNumThreads.UseVisualStyleBackColor = true;
-            this.setNumThreads.Click += new System.EventHandler(this.setNumThreads_Click);
+            this.addressThreshold.DecimalPlaces = 2;
+            this.addressThreshold.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.addressThreshold.Location = new System.Drawing.Point(224, 217);
+            this.addressThreshold.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.addressThreshold.Name = "addressThreshold";
+            this.addressThreshold.Size = new System.Drawing.Size(125, 22);
+            this.addressThreshold.TabIndex = 13;
+            this.addressThreshold.Value = new decimal(new int[] {
+            25,
+            0,
+            0,
+            131072});
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(221, 197);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(128, 17);
+            this.label13.TabIndex = 14;
+            this.label13.Text = "Address Threshold";
+            // 
+            // addressWeakThreshold
+            // 
+            this.addressWeakThreshold.DecimalPlaces = 2;
+            this.addressWeakThreshold.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.addressWeakThreshold.Location = new System.Drawing.Point(364, 217);
+            this.addressWeakThreshold.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.addressWeakThreshold.Name = "addressWeakThreshold";
+            this.addressWeakThreshold.Size = new System.Drawing.Size(197, 22);
+            this.addressWeakThreshold.TabIndex = 15;
+            this.addressWeakThreshold.Value = new decimal(new int[] {
+            4,
+            0,
+            0,
+            65536});
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(364, 197);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(200, 17);
+            this.label14.TabIndex = 16;
+            this.label14.Text = "Address Secondary Threshold";
             // 
             // Form1
             // 
@@ -628,6 +702,8 @@
             this.panel3.PerformLayout();
             this.configTab.ResumeLayout(false);
             this.configTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.addressThreshold)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.addressWeakThreshold)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -681,6 +757,10 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.NumericUpDown numThreads;
         private System.Windows.Forms.Button setNumThreads;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.NumericUpDown addressWeakThreshold;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.NumericUpDown addressThreshold;
     }
 }
 
