@@ -129,8 +129,8 @@
             this.panel4.Controls.Add(this.runDeterminer);
             this.panel4.Controls.Add(this.determinerProgressDetailed);
             this.panel4.Controls.Add(this.label6);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(4, 250);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel4.Location = new System.Drawing.Point(4, 4);
             this.panel4.Margin = new System.Windows.Forms.Padding(4);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(1017, 240);
@@ -196,18 +196,18 @@
             this.panel5.Controls.Add(this.processorProgressDetailed);
             this.panel5.Controls.Add(this.runProcessor);
             this.panel5.Controls.Add(this.label7);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel5.Location = new System.Drawing.Point(4, 4);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel5.Location = new System.Drawing.Point(4, 247);
             this.panel5.Margin = new System.Windows.Forms.Padding(4);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(1017, 246);
+            this.panel5.Size = new System.Drawing.Size(1017, 243);
             this.panel5.TabIndex = 7;
             // 
             // processorProgressBar
             // 
             this.processorProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.processorProgressBar.Location = new System.Drawing.Point(4, 212);
+            this.processorProgressBar.Location = new System.Drawing.Point(4, 209);
             this.processorProgressBar.Margin = new System.Windows.Forms.Padding(4);
             this.processorProgressBar.Name = "processorProgressBar";
             this.processorProgressBar.Size = new System.Drawing.Size(1007, 28);
@@ -347,6 +347,7 @@
             // 
             // MLSInputFile_Determiner
             // 
+            this.MLSInputFile_Determiner.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.MLSInputFile_Determiner.Location = new System.Drawing.Point(4, 70);
             this.MLSInputFile_Determiner.Margin = new System.Windows.Forms.Padding(4);
             this.MLSInputFile_Determiner.Name = "MLSInputFile_Determiner";
@@ -356,6 +357,7 @@
             // 
             // openMLSFile_Determiner
             // 
+            this.openMLSFile_Determiner.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.openMLSFile_Determiner.Location = new System.Drawing.Point(900, 67);
             this.openMLSFile_Determiner.Margin = new System.Windows.Forms.Padding(4);
             this.openMLSFile_Determiner.Name = "openMLSFile_Determiner";
@@ -367,6 +369,7 @@
             // 
             // openAIMFile
             // 
+            this.openAIMFile.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.openAIMFile.Location = new System.Drawing.Point(900, 140);
             this.openAIMFile.Margin = new System.Windows.Forms.Padding(4);
             this.openAIMFile.Name = "openAIMFile";
@@ -378,6 +381,7 @@
             // 
             // AIMInputFile
             // 
+            this.AIMInputFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.AIMInputFile.Location = new System.Drawing.Point(4, 143);
             this.AIMInputFile.Margin = new System.Windows.Forms.Padding(4);
             this.AIMInputFile.Name = "AIMInputFile";
@@ -435,6 +439,8 @@
             // 
             // MLSInputFile_Processor
             // 
+            this.MLSInputFile_Processor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.MLSInputFile_Processor.Location = new System.Drawing.Point(4, 73);
             this.MLSInputFile_Processor.Margin = new System.Windows.Forms.Padding(4);
             this.MLSInputFile_Processor.Name = "MLSInputFile_Processor";
@@ -457,6 +463,7 @@
             // 
             // openMLSFile_Processor
             // 
+            this.openMLSFile_Processor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.openMLSFile_Processor.Location = new System.Drawing.Point(900, 70);
             this.openMLSFile_Processor.Margin = new System.Windows.Forms.Padding(4);
             this.openMLSFile_Processor.Name = "openMLSFile_Processor";
@@ -578,16 +585,19 @@
             // 
             // configData
             // 
+            this.configData.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.configData.Location = new System.Drawing.Point(8, 137);
             this.configData.Margin = new System.Windows.Forms.Padding(4);
             this.configData.Multiline = true;
             this.configData.Name = "configData";
-            this.configData.Size = new System.Drawing.Size(717, 163);
+            this.configData.Size = new System.Drawing.Size(1009, 163);
             this.configData.TabIndex = 3;
             // 
             // openConfigFile
             // 
-            this.openConfigFile.Location = new System.Drawing.Point(735, 47);
+            this.openConfigFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.openConfigFile.Location = new System.Drawing.Point(917, 46);
             this.openConfigFile.Margin = new System.Windows.Forms.Padding(4);
             this.openConfigFile.Name = "openConfigFile";
             this.openConfigFile.Size = new System.Drawing.Size(100, 28);
@@ -608,10 +618,12 @@
             // 
             // configFile
             // 
+            this.configFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.configFile.Location = new System.Drawing.Point(8, 49);
             this.configFile.Margin = new System.Windows.Forms.Padding(4);
             this.configFile.Name = "configFile";
-            this.configFile.Size = new System.Drawing.Size(717, 22);
+            this.configFile.Size = new System.Drawing.Size(901, 22);
             this.configFile.TabIndex = 0;
             this.configFile.Text = ".\\config.txt\r\n";
             // 
