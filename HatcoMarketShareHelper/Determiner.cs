@@ -7,9 +7,63 @@ using Excel = Microsoft.Office.Interop.Excel;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace HatcoMarketShareHelper
 {
+    public class DeterminerThread
+    {
+        private Excel._Worksheet worksheetMLS;
+        private Excel._Worksheet worksheetAIM;
+        private Excel.Range rangeMLS;
+        private Excel.Range rangeAIM;
+        private Dictionary<string, int> counts;
+        private Dictionary<string, int> cols;
+        private Dictionary<string, double> thresholds;
+        private IProgress<int> prog;
+        private Form1 mainForm;
+        private int numThreads;
+        private int currThread;
+        private static Object mutex = new Object();
+
+        public DeterminerThread(Excel._Worksheet xlWorksheetMLS, Excel._Worksheet xlWorksheetAIM,
+            Excel.Range xlRangeMLS, Excel.Range xlRangeAIM, Dictionary<string, int> rangeCount,
+            Dictionary<string, int> relevantCols, Dictionary<string, double> thresholdsDict, IProgress<int> progress,
+            Form1 form, int threads, int thread)
+        {
+            worksheetMLS = xlWorksheetMLS;
+            worksheetAIM = xlWorksheetAIM;
+            rangeMLS = xlRangeMLS;
+            rangeAIM = xlRangeAIM;
+            counts = rangeCount;
+            cols = relevantCols;
+            thresholds = thresholdsDict;
+            prog = progress;
+            mainForm = form;
+            numThreads = threads;
+            currThread = thread;
+        }
+
+        public void threadMethod()
+        {
+            int range = counts["rowCountMLS"] / numThreads;
+            int rangeMin = (range * currThread) + 2;
+            int rangeMax = Math.Min((range * currThread) + (range + 2), counts["rowCountMLS"]);
+
+            try
+            {
+                DeterminerWork det = new DeterminerWork();
+                det.determinerDoWork(worksheetMLS, worksheetAIM, rangeMLS, rangeAIM,
+                    counts, cols, thresholds, prog, mainForm, rangeMin, rangeMax, mutex);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw e;
+            }
+        }
+    }
+
     public class Determiner
     {
         /// <summary>
@@ -27,7 +81,7 @@ namespace HatcoMarketShareHelper
         /// <param name="ownerThreshold"></param>
         public void mainDeterminer(string MLSFileName, string AIMFileName, double addressThreshold,
             double addressThresholdWeak, double ownerThreshold, double ownerThresholdWeak, IProgress<int> progress,
-            Form1 form)
+            Form1 form, int numThreads)
         {
             Application.UseWaitCursor = true; // set the cursor to waiting symbol
 
@@ -131,9 +185,21 @@ namespace HatcoMarketShareHelper
                     if (progress != null)
                         progress.Report(100 / rangeCount["rowCountMLS"]);
 
-                    DeterminerWork det = new DeterminerWork();
-                    det.determinerDoWork(xlWorksheetMLS, xlWorksheetAIM, xlRangeMLS, xlRangeAIM,
-                        rangeCount, relevantCols, thresholds, progress, form);
+                    // create and start all threads for processing
+                    Thread[] threads = new Thread[numThreads];
+                    DeterminerThread[] detThreads = new DeterminerThread[numThreads];
+                    for (int i = 0; i < numThreads; i++)
+                    {
+                        detThreads[i] = new DeterminerThread(xlWorksheetMLS, xlWorksheetAIM, xlRangeMLS,
+                            xlRangeAIM, rangeCount, relevantCols, thresholds, progress, form, numThreads, i);
+
+                        threads[i] = new Thread(new ThreadStart(detThreads[i].threadMethod));
+                        threads[i].Start();
+                    }
+
+                    // wait for all threads to finish processing before returning
+                    for (int i = 0; i < numThreads; i++)
+                        threads[i].Join();
                 }
                 catch (Exception ex) // if an exception is caught, close the excel files so they aren't held hostage
                 {

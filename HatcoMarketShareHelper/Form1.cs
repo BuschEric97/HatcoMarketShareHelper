@@ -73,7 +73,7 @@ namespace HatcoMarketShareHelper
                 determinerProgressBar.Value = determinerProgressBar.Minimum;
                 watch.Start();
                 await Task.Run(() => det.mainDeterminer(MLSInputFile_Determiner.Text, AIMInputFile.Text,
-                    0.25, 0.4, 0.25, 0.4, progress, this));
+                    0.25, 0.4, 0.25, 0.4, progress, this, (int)numThreads.Value));
                 watch.Stop();
                 determinerProgressBar.Value = determinerProgressBar.Maximum;
                 MessageBox.Show("Complete!\nTime elapsed: " + watch.Elapsed);
@@ -183,6 +183,11 @@ namespace HatcoMarketShareHelper
                 MessageBox.Show("Error: Configuration file does not exist at given path:\n" +
                     configFile.Text);
             }
+        }
+
+        private void setNumThreads_Click(object sender, EventArgs e)
+        {
+            numThreads.Value = Environment.ProcessorCount;
         }
     }
 }
