@@ -181,9 +181,12 @@ namespace HatcoMarketShareHelper
                     xlRangeMLS.Cells[1, relevantCols["MLSLikelyCloseCol"]].Value = "Likely Closed";
                     xlRangeMLS.Cells[1, relevantCols["MLSEscrowOfficerCol"]].Value = "Escrow Officer";
 
-                    // set the progress bar to the first little tick
-                    if (progress != null)
-                        progress.Report(100 / rangeCount["rowCountMLS"]);
+                    // set up the progress bar
+                    MethodInvoker inv = delegate
+                    {
+                        form.determinerProgressBar.Maximum = rangeCount["rowCountMLS"] + numThreads;
+                    };
+                    form.Invoke(inv);
 
                     // create and start all threads for processing
                     Thread[] threads = new Thread[numThreads];

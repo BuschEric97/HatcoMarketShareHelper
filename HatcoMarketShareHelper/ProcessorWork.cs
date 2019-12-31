@@ -350,15 +350,20 @@ namespace HatcoMarketShareHelper
                     }
                 }
 
-                if (progress != null)
-                    progress.Report(100 / rangeCount["rowCount1MLS"]);
+                // update progress bar after each row of sheet 1
+                MethodInvoker inv1 = delegate
+                {
+                    form.processorProgressBar.Increment(1);
+                };
+                form.Invoke(inv1);
 
+                // update detailed progress after each row of sheet 1
                 string progressDetailedString = sheet1CurrRow + "/" + (rangeCount["rowCount1MLS"] - 1);
-                MethodInvoker inv = delegate
+                MethodInvoker inv2 = delegate
                 {
                     form.processorProgressDetailed.Text = progressDetailedString;
                 };
-                form.Invoke(inv);
+                form.Invoke(inv2);
             }
 
             Excel._Worksheet xlWorksheet4MLS = null;

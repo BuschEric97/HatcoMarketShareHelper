@@ -666,8 +666,8 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ProgressBar determinerProgressBar;
-        private System.Windows.Forms.ProgressBar processorProgressBar;
+        public System.Windows.Forms.ProgressBar determinerProgressBar;
+        public System.Windows.Forms.ProgressBar processorProgressBar;
         private System.Windows.Forms.CheckBox runAsCapstone;
         private System.Windows.Forms.CheckBox doSubtotals;
         private System.Windows.Forms.TabPage configTab;

@@ -257,16 +257,20 @@ namespace HatcoMarketShareHelper
                     }
 
                     // update progress bar after each row of MLS file
-                    if (progress != null)
-                        progress.Report(100 / rangeCount["rowCountMLS"]);
+                    MethodInvoker inv1 = delegate
+                    {
+                        form.determinerProgressBar.Increment(1);
+                    };
+                    form.Invoke(inv1);
 
+                    // update detailed progress after each row of MLS file
                     string progressDetailedUpdate = (int.Parse(form.determinerProgressDetailed.Text.Split('/')[0]) + 1) +
                         "/" + rangeCount["rowCountMLS"];
-                    MethodInvoker inv = delegate
+                    MethodInvoker inv2 = delegate
                     {
                         form.determinerProgressDetailed.Text = progressDetailedUpdate;
                     };
-                    form.Invoke(inv);
+                    form.Invoke(inv2);
                 }
             }
         }

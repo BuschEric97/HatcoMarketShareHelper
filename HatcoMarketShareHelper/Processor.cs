@@ -190,6 +190,13 @@ namespace HatcoMarketShareHelper
                     xlWorkbookMLS.Sheets[3].Cells[1, 16].Value = "BS Closings";
                     xlWorkbookMLS.Sheets[3].Cells[1, 17].Value = "BS TC Close";
 
+                    // set up the progress bar
+                    MethodInvoker inv = delegate
+                    {
+                        form.processorProgressBar.Maximum = rangeCount["rowCount1MLS"] + 1;
+                    };
+                    form.Invoke(inv);
+
                     ProcessorWork proc = new ProcessorWork();
                     proc.processorWork(xlWorkbookMLS, xlWorksheet1MLS, xlWorksheet2MLS,
                         xlWorksheet3MLS, rangeCount, relevantCols, includeNonMLS,
