@@ -44,6 +44,10 @@
             this.label7 = new System.Windows.Forms.Label();
             this.optionsTab = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label14 = new System.Windows.Forms.Label();
+            this.addressWeakThreshold = new System.Windows.Forms.NumericUpDown();
+            this.label13 = new System.Windows.Forms.Label();
+            this.addressThreshold = new System.Windows.Forms.NumericUpDown();
             this.setNumThreads = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
             this.numThreads = new System.Windows.Forms.NumericUpDown();
@@ -75,22 +79,18 @@
             this.openFileDialogMLS = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogAIM = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogConfig = new System.Windows.Forms.OpenFileDialog();
-            this.addressThreshold = new System.Windows.Forms.NumericUpDown();
-            this.label13 = new System.Windows.Forms.Label();
-            this.addressWeakThreshold = new System.Windows.Forms.NumericUpDown();
-            this.label14 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.homeTab.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
             this.optionsTab.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.addressWeakThreshold)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.addressThreshold)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numThreads)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.configTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.addressThreshold)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.addressWeakThreshold)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -292,6 +292,70 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1017, 252);
             this.panel1.TabIndex = 11;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(361, 197);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(200, 17);
+            this.label14.TabIndex = 16;
+            this.label14.Text = "Address Secondary Threshold";
+            // 
+            // addressWeakThreshold
+            // 
+            this.addressWeakThreshold.DecimalPlaces = 2;
+            this.addressWeakThreshold.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.addressWeakThreshold.Location = new System.Drawing.Point(364, 217);
+            this.addressWeakThreshold.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.addressWeakThreshold.Name = "addressWeakThreshold";
+            this.addressWeakThreshold.Size = new System.Drawing.Size(197, 22);
+            this.addressWeakThreshold.TabIndex = 15;
+            this.addressWeakThreshold.Value = new decimal(new int[] {
+            4,
+            0,
+            0,
+            65536});
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(221, 197);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(128, 17);
+            this.label13.TabIndex = 14;
+            this.label13.Text = "Address Threshold";
+            // 
+            // addressThreshold
+            // 
+            this.addressThreshold.DecimalPlaces = 2;
+            this.addressThreshold.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.addressThreshold.Location = new System.Drawing.Point(224, 217);
+            this.addressThreshold.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.addressThreshold.Name = "addressThreshold";
+            this.addressThreshold.Size = new System.Drawing.Size(125, 22);
+            this.addressThreshold.TabIndex = 13;
+            this.addressThreshold.Value = new decimal(new int[] {
+            25,
+            0,
+            0,
+            131072});
             // 
             // setNumThreads
             // 
@@ -625,7 +689,7 @@
             this.configFile.Name = "configFile";
             this.configFile.Size = new System.Drawing.Size(901, 22);
             this.configFile.TabIndex = 0;
-            this.configFile.Text = ".\\config.txt\r\n";
+            this.configFile.Text = "config.txt";
             // 
             // openFileDialogMLS
             // 
@@ -638,70 +702,6 @@
             // openFileDialogConfig
             // 
             this.openFileDialogConfig.FileName = ".\\config.txt";
-            // 
-            // addressThreshold
-            // 
-            this.addressThreshold.DecimalPlaces = 2;
-            this.addressThreshold.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            131072});
-            this.addressThreshold.Location = new System.Drawing.Point(224, 217);
-            this.addressThreshold.Maximum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.addressThreshold.Name = "addressThreshold";
-            this.addressThreshold.Size = new System.Drawing.Size(125, 22);
-            this.addressThreshold.TabIndex = 13;
-            this.addressThreshold.Value = new decimal(new int[] {
-            25,
-            0,
-            0,
-            131072});
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(221, 197);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(128, 17);
-            this.label13.TabIndex = 14;
-            this.label13.Text = "Address Threshold";
-            // 
-            // addressWeakThreshold
-            // 
-            this.addressWeakThreshold.DecimalPlaces = 2;
-            this.addressWeakThreshold.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            131072});
-            this.addressWeakThreshold.Location = new System.Drawing.Point(364, 217);
-            this.addressWeakThreshold.Maximum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.addressWeakThreshold.Name = "addressWeakThreshold";
-            this.addressWeakThreshold.Size = new System.Drawing.Size(197, 22);
-            this.addressWeakThreshold.TabIndex = 15;
-            this.addressWeakThreshold.Value = new decimal(new int[] {
-            4,
-            0,
-            0,
-            65536});
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(361, 197);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(200, 17);
-            this.label14.TabIndex = 16;
-            this.label14.Text = "Address Secondary Threshold";
             // 
             // Form1
             // 
@@ -721,6 +721,8 @@
             this.optionsTab.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.addressWeakThreshold)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.addressThreshold)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numThreads)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
@@ -728,8 +730,6 @@
             this.panel3.PerformLayout();
             this.configTab.ResumeLayout(false);
             this.configTab.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.addressThreshold)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.addressWeakThreshold)).EndInit();
             this.ResumeLayout(false);
 
         }

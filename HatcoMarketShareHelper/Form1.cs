@@ -16,6 +16,8 @@ namespace HatcoMarketShareHelper
         public Form1()
         {
             InitializeComponent();
+            configFile.Text = Environment.CurrentDirectory + "\\config.txt";
+            numThreads.Value = Environment.ProcessorCount;
         }
 
         private void openMLSFile_Determiner_Click(object sender, EventArgs e)
