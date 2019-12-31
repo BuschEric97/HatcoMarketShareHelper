@@ -160,8 +160,7 @@ namespace HatcoMarketShareHelper
 
                     foreach (int currentAIMFile in consideredRowsAIM)
                     {
-                        if (xlRangeAIM.Cells[currentAIMFile, relevantCols["AIMAddressCol"]].Value2 != null &&
-                            consideredRowsAIM.Contains(currentAIMFile))
+                        if (xlRangeAIM.Cells[currentAIMFile, relevantCols["AIMAddressCol"]].Value2 != null)
                         {
                             // get the address strings from the xl files and parse them by the space character
                             string addressAIM = xlRangeAIM.Cells[currentAIMFile, relevantCols["AIMAddressCol"]].Value2.ToString();

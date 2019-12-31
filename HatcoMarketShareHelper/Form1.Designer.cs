@@ -44,6 +44,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.optionsTab = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.determinerSettingsHelp = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.addressWeakThreshold = new System.Windows.Forms.NumericUpDown();
             this.label13 = new System.Windows.Forms.Label();
@@ -59,12 +60,14 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.processorSettingsHelp = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.MLSInputFile_Processor = new System.Windows.Forms.TextBox();
             this.includeNonMLSAgent = new System.Windows.Forms.CheckBox();
             this.openMLSFile_Processor = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.miscSettingsHelp = new System.Windows.Forms.Button();
             this.doSubtotals = new System.Windows.Forms.CheckBox();
             this.runAsCapstone = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -79,6 +82,7 @@
             this.openFileDialogMLS = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogAIM = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogConfig = new System.Windows.Forms.OpenFileDialog();
+            this.configSettingsHelp = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.homeTab.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -272,6 +276,7 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.determinerSettingsHelp);
             this.panel1.Controls.Add(this.label14);
             this.panel1.Controls.Add(this.addressWeakThreshold);
             this.panel1.Controls.Add(this.label13);
@@ -293,14 +298,25 @@
             this.panel1.Size = new System.Drawing.Size(1017, 252);
             this.panel1.TabIndex = 11;
             // 
+            // determinerSettingsHelp
+            // 
+            this.determinerSettingsHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.determinerSettingsHelp.Location = new System.Drawing.Point(991, 224);
+            this.determinerSettingsHelp.Name = "determinerSettingsHelp";
+            this.determinerSettingsHelp.Size = new System.Drawing.Size(21, 23);
+            this.determinerSettingsHelp.TabIndex = 17;
+            this.determinerSettingsHelp.Text = "?";
+            this.determinerSettingsHelp.UseVisualStyleBackColor = true;
+            this.determinerSettingsHelp.Click += new System.EventHandler(this.determinerSettingsHelp_Click);
+            // 
             // label14
             // 
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(361, 197);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(200, 17);
+            this.label14.Size = new System.Drawing.Size(193, 17);
             this.label14.TabIndex = 16;
-            this.label14.Text = "Address Secondary Threshold";
+            this.label14.Text = "Address secondary threshold";
             // 
             // addressWeakThreshold
             // 
@@ -330,9 +346,9 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(221, 197);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(128, 17);
+            this.label13.Size = new System.Drawing.Size(123, 17);
             this.label13.TabIndex = 14;
-            this.label13.Text = "Address Threshold";
+            this.label13.Text = "Address threshold";
             // 
             // addressThreshold
             // 
@@ -479,6 +495,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.processorSettingsHelp);
             this.panel2.Controls.Add(this.label9);
             this.panel2.Controls.Add(this.MLSInputFile_Processor);
             this.panel2.Controls.Add(this.includeNonMLSAgent);
@@ -489,6 +506,17 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1017, 152);
             this.panel2.TabIndex = 12;
+            // 
+            // processorSettingsHelp
+            // 
+            this.processorSettingsHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.processorSettingsHelp.Location = new System.Drawing.Point(991, 123);
+            this.processorSettingsHelp.Name = "processorSettingsHelp";
+            this.processorSettingsHelp.Size = new System.Drawing.Size(21, 23);
+            this.processorSettingsHelp.TabIndex = 18;
+            this.processorSettingsHelp.Text = "?";
+            this.processorSettingsHelp.UseVisualStyleBackColor = true;
+            this.processorSettingsHelp.Click += new System.EventHandler(this.processorSettingsHelp_Click);
             // 
             // label9
             // 
@@ -550,6 +578,7 @@
             // panel3
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.miscSettingsHelp);
             this.panel3.Controls.Add(this.doSubtotals);
             this.panel3.Controls.Add(this.runAsCapstone);
             this.panel3.Controls.Add(this.label10);
@@ -560,6 +589,17 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1017, 86);
             this.panel3.TabIndex = 13;
+            // 
+            // miscSettingsHelp
+            // 
+            this.miscSettingsHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.miscSettingsHelp.Location = new System.Drawing.Point(991, 58);
+            this.miscSettingsHelp.Name = "miscSettingsHelp";
+            this.miscSettingsHelp.Size = new System.Drawing.Size(21, 23);
+            this.miscSettingsHelp.TabIndex = 18;
+            this.miscSettingsHelp.Text = "?";
+            this.miscSettingsHelp.UseVisualStyleBackColor = true;
+            this.miscSettingsHelp.Click += new System.EventHandler(this.miscSettingsHelp_Click);
             // 
             // doSubtotals
             // 
@@ -610,6 +650,7 @@
             // 
             // configTab
             // 
+            this.configTab.Controls.Add(this.configSettingsHelp);
             this.configTab.Controls.Add(this.saveConfigData);
             this.configTab.Controls.Add(this.refreshConfigData);
             this.configTab.Controls.Add(this.configData);
@@ -703,6 +744,17 @@
             // 
             this.openFileDialogConfig.FileName = ".\\config.txt";
             // 
+            // configSettingsHelp
+            // 
+            this.configSettingsHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.configSettingsHelp.Location = new System.Drawing.Point(997, 464);
+            this.configSettingsHelp.Name = "configSettingsHelp";
+            this.configSettingsHelp.Size = new System.Drawing.Size(21, 23);
+            this.configSettingsHelp.TabIndex = 18;
+            this.configSettingsHelp.Text = "?";
+            this.configSettingsHelp.UseVisualStyleBackColor = true;
+            this.configSettingsHelp.Click += new System.EventHandler(this.configSettingsHelp_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -787,6 +839,10 @@
         private System.Windows.Forms.NumericUpDown addressWeakThreshold;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.NumericUpDown addressThreshold;
+        private System.Windows.Forms.Button determinerSettingsHelp;
+        private System.Windows.Forms.Button processorSettingsHelp;
+        private System.Windows.Forms.Button miscSettingsHelp;
+        private System.Windows.Forms.Button configSettingsHelp;
     }
 }
 

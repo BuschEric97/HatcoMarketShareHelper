@@ -77,7 +77,7 @@ namespace HatcoMarketShareHelper
                 if (StringDistance.GetStringDistance(sellingAgent, listingAgent) <= 1 ||
                     sellingAgent == "")
                 {
-                    if (includeNonMLS || sellingAgent != "Non-MLS Agent")
+                    if (includeNonMLS || (sellingAgent != "Non-MLS Agent" && sellingAgent != "Non Member"))
                     {
                         xlRange2MLS.Cells[sheet2CurrRow, relevantCols["MLSAgentCol2"]].Value
                             = sellingAgent;
@@ -123,7 +123,7 @@ namespace HatcoMarketShareHelper
                 }
                 else
                 {
-                    if (includeNonMLS || sellingAgent != "Non-MLS Agent")
+                    if (includeNonMLS || (sellingAgent != "Non-MLS Agent" && sellingAgent != "Non Member"))
                     {
                         xlRange2MLS.Cells[sheet2CurrRow, relevantCols["MLSAgentCol2"]].Value
                             = sellingAgent;
@@ -167,7 +167,7 @@ namespace HatcoMarketShareHelper
                         sheet2CurrRow++; // increment so data doesn't get overwritten
                     }
 
-                    if (includeNonMLS || listingAgent != "Non-MLS Agent")
+                    if (includeNonMLS || (listingAgent != "Non-MLS Agent" && listingAgent != "Non Member"))
                     {
                         xlRange2MLS.Cells[sheet2CurrRow, relevantCols["MLSAgentCol2"]].Value
                             = listingAgent;
@@ -215,7 +215,7 @@ namespace HatcoMarketShareHelper
                 if (StringDistance.GetStringDistance(sellingOffice, listingOffice) <= 1 ||
                     sellingOffice == "")
                 {
-                    if (includeNonMLS || sellingAgent != "Non-MLS Agent")
+                    if (includeNonMLS || (sellingAgent != "Non-MLS Agent" && sellingAgent != "Non Member"))
                     {
                         xlRange3MLS.Cells[sheet3CurrRow, relevantCols["MLSAgentCol3"]].Value
                             = sellingAgent;
@@ -261,7 +261,7 @@ namespace HatcoMarketShareHelper
                 }
                 else
                 {
-                    if (includeNonMLS || sellingAgent != "Non-MLS Agent")
+                    if (includeNonMLS || (sellingAgent != "Non-MLS Agent" && sellingAgent != "Non Member"))
                     {
                         xlRange3MLS.Cells[sheet3CurrRow, relevantCols["MLSAgentCol3"]].Value
                             = sellingAgent;
@@ -305,7 +305,7 @@ namespace HatcoMarketShareHelper
                         sheet3CurrRow++; // increment so data doesn't get overwritten
                     }
 
-                    if (includeNonMLS || listingAgent != "Non-MLS Agent")
+                    if (includeNonMLS || (listingAgent != "Non-MLS Agent" && listingAgent != "Non Member"))
                     {
                         xlRange3MLS.Cells[sheet3CurrRow, relevantCols["MLSAgentCol3"]].Value
                             = listingAgent;

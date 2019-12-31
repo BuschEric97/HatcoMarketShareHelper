@@ -192,5 +192,58 @@ namespace HatcoMarketShareHelper
         {
             numThreads.Value = Environment.ProcessorCount;
         }
+
+        private void determinerSettingsHelp_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("MLS Input File: This is the input file for MLS data" +
+                            "\n\tas well as the output file for determiner results" + "\n\n" +
+                            "AIM Input File: This is the input file for AIM data" + "\n\n" +
+                            "Number of threads: This is the amount of processor cores" +
+                            "\n\tthe determiner will use to process the results. Default" +
+                            "\n\tvalue is the maximum number of cores in the system" + "\n\n" +
+                            "Address threshold: This is the threshold for string difference" +
+                            "\n\twhen comparing addresses between MLS and AIM data. This" +
+                            "\n\tshouldn't need to be changed." + "\n\n" +
+                            "Address secondary threshold: This is the fallback threshold for" +
+                            "\n\tif the main threshold doesn't detect a match. Will mark as" +
+                            "\n\tlikely match if matched with this threshold. This shouldn't" +
+                            "\n\tneed to be changed.");
+             
+        }
+
+        private void processorSettingsHelp_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("MLS Input File: This is the input file for MLS data" +
+                            "\n\tas well as the output file for processor results" + "\n\n" +
+                            "Include Non-MLS Agent: When unchecked, processor will" +
+                            "\n\tomit any record with agent as \"Non-MLS Agent\" on" +
+                            "\n\tHATCo data and omit any record with agent as" +
+                            "\n\t\"Non Member\" on Capstone data");
+        }
+
+        private void miscSettingsHelp_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("MLS input files are the same: Checking this box will" +
+                            "\n\tenforce that the MLS input files are the same" +
+                            "\n\tacross both the determiner and processor" + "\n\n" +
+                            "Run as Capstone: Checking this box will modify processing" +
+                            "\n\tto represent results for Capstone needs" + "\n\n" +
+                            "Do sorting and subtotals: When unchecked, processor" + 
+                            "\n\twill skip sorting and subtotaling");
+        }
+
+        private void configSettingsHelp_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("The config file holds the zip codes for the specified" +
+                            "\nareas for the processor. The processor uses these" +
+                            "\nzip codes/areas to generate additional worksheets." +
+                            "\n\nPress the \"Refresh\" button to load the contents" +
+                            "\nof the config file into the editor if changes need" +
+                            "\nto be made. Then click the \"Save\" button to write" +
+                            "\nthose changes to the config file" +
+                            "\n\nPlease use the following format exactly or else the" +
+                            "\nprocessor will crash:" +
+                            "\n\tExampleArea1:12345,23456 ExampleArea2:09876,98765,87654 ...");
+        }
     }
 }
