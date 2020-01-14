@@ -64,10 +64,6 @@ namespace HatcoMarketShareHelper
             var watch = new System.Diagnostics.Stopwatch();
             determinerProgressBar.Maximum = 100;
             determinerProgressBar.Minimum = 0;
-            var progress = new Progress<int>(v =>
-            {
-                determinerProgressBar.Increment(v);
-            });
 
             try
             {
@@ -76,7 +72,7 @@ namespace HatcoMarketShareHelper
                 watch.Start();
                 await Task.Run(() => det.mainDeterminer(MLSInputFile_Determiner.Text, AIMInputFile.Text,
                     (double)addressThreshold.Value, (double)addressWeakThreshold.Value, 0.25, 0.4,
-                    progress, this, (int)numThreads.Value));
+                    this, (int)numThreads.Value));
                 watch.Stop();
                 determinerProgressBar.Value = determinerProgressBar.Maximum;
                 MessageBox.Show("Complete!\nTime elapsed: " + watch.Elapsed);

@@ -20,7 +20,6 @@ namespace HatcoMarketShareHelper
         private Dictionary<string, int> counts;
         private Dictionary<string, int> cols;
         private Dictionary<string, double> thresholds;
-        private IProgress<int> prog;
         private Form1 mainForm;
         private int numThreads;
         private int currThread;
@@ -28,7 +27,7 @@ namespace HatcoMarketShareHelper
 
         public DeterminerThread(Excel._Worksheet xlWorksheetMLS, Excel._Worksheet xlWorksheetAIM,
             Excel.Range xlRangeMLS, Excel.Range xlRangeAIM, Dictionary<string, int> rangeCount,
-            Dictionary<string, int> relevantCols, Dictionary<string, double> thresholdsDict, IProgress<int> progress,
+            Dictionary<string, int> relevantCols, Dictionary<string, double> thresholdsDict,
             Form1 form, int threads, int thread)
         {
             worksheetMLS = xlWorksheetMLS;
@@ -38,7 +37,6 @@ namespace HatcoMarketShareHelper
             counts = rangeCount;
             cols = relevantCols;
             thresholds = thresholdsDict;
-            prog = progress;
             mainForm = form;
             numThreads = threads;
             currThread = thread;
@@ -54,7 +52,7 @@ namespace HatcoMarketShareHelper
             {
                 DeterminerWork det = new DeterminerWork();
                 det.determinerDoWork(worksheetMLS, worksheetAIM, rangeMLS, rangeAIM,
-                    counts, cols, thresholds, prog, mainForm, rangeMin, rangeMax, mutex);
+                    counts, cols, thresholds, mainForm, rangeMin, rangeMax, mutex);
             }
             catch (Exception e)
             {
@@ -80,7 +78,7 @@ namespace HatcoMarketShareHelper
         /// <param name="addressThreshold"></param>
         /// <param name="ownerThreshold"></param>
         public void mainDeterminer(string MLSFileName, string AIMFileName, double addressThreshold,
-            double addressThresholdWeak, double ownerThreshold, double ownerThresholdWeak, IProgress<int> progress,
+            double addressThresholdWeak, double ownerThreshold, double ownerThresholdWeak,
             Form1 form, int numThreads)
         {
             Application.UseWaitCursor = true; // set the cursor to waiting symbol
@@ -194,7 +192,7 @@ namespace HatcoMarketShareHelper
                     for (int i = 0; i < numThreads; i++)
                     {
                         detThreads[i] = new DeterminerThread(xlWorksheetMLS, xlWorksheetAIM, xlRangeMLS,
-                            xlRangeAIM, rangeCount, relevantCols, thresholds, progress, form, numThreads, i);
+                            xlRangeAIM, rangeCount, relevantCols, thresholds, form, numThreads, i);
 
                         threads[i] = new Thread(new ThreadStart(detThreads[i].threadMethod));
                         threads[i].Start();

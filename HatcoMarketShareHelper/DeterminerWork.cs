@@ -26,9 +26,16 @@ namespace HatcoMarketShareHelper
         /// <param name="progress"></param>
         public void determinerDoWork(Excel._Worksheet xlWorksheetMLS, Excel._Worksheet xlWorksheetAIM,
             Excel.Range xlRangeMLS, Excel.Range xlRangeAIM, Dictionary<string, int> rangeCount,
-            Dictionary<string, int> relevantCols, Dictionary<string, double> thresholds, IProgress<int> progress,
+            Dictionary<string, int> relevantCols, Dictionary<string, double> thresholds,
             Form1 form, int rangeMin, int rangeMax, Object mutex)
         {
+            bool zipMatch = false;
+            bool dateClosedMatch = false;
+            int addressMatch = 0;
+            int ownerMatch = 0;
+            int closedGFNumRow = 2;
+            List<int> consideredRowsAIM = new List<int>();
+
             // loop through the files and do the main work
             for (int currentMLSFile = rangeMin; currentMLSFile <= rangeMax; currentMLSFile++)
             {
@@ -36,12 +43,12 @@ namespace HatcoMarketShareHelper
                 //
                 // For addressMatch and ownerMatch: 0 = no match,
                 // 1 = likely a match, 2 = definitely a match
-                bool zipMatch = false;
-                bool dateClosedMatch = false;
-                int addressMatch = 0;
-                int ownerMatch = 0;
-                int closedGFNumRow = 2;
-                List<int> consideredRowsAIM = new List<int>();
+                zipMatch = false;
+                dateClosedMatch = false;
+                addressMatch = 0;
+                ownerMatch = 0;
+                closedGFNumRow = 2;
+                consideredRowsAIM.Clear();
 
                 /// determine if zip codes are a match
                 if (xlRangeMLS.Cells[currentMLSFile, relevantCols["MLSZipCol"]].Value2 != null)
@@ -271,6 +278,8 @@ namespace HatcoMarketShareHelper
                     };
                     form.Invoke(inv2);
                 }
+
+                GC.Collect(); // run garbage collection to free up any unused memory
             }
         }
     }
