@@ -57,7 +57,7 @@ namespace HatcoMarketShareHelper
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw e;
+                MessageBox.Show(e.Message);
             }
         }
     }
@@ -195,6 +195,7 @@ namespace HatcoMarketShareHelper
                             xlRangeAIM, rangeCount, relevantCols, thresholds, form, numThreads, i);
 
                         threads[i] = new Thread(new ThreadStart(detThreads[i].threadMethod));
+                        threads[i].IsBackground = true;
                         threads[i].Start();
                     }
 

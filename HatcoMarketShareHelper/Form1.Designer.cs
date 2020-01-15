@@ -120,7 +120,7 @@
             this.homeTab.Controls.Add(this.panel5);
             this.homeTab.Location = new System.Drawing.Point(4, 22);
             this.homeTab.Name = "homeTab";
-            this.homeTab.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.homeTab.Padding = new System.Windows.Forms.Padding(3);
             this.homeTab.Size = new System.Drawing.Size(767, 402);
             this.homeTab.TabIndex = 0;
             this.homeTab.Text = "Launcher";
@@ -255,7 +255,7 @@
             this.optionsTab.Controls.Add(this.panel3);
             this.optionsTab.Location = new System.Drawing.Point(4, 22);
             this.optionsTab.Name = "optionsTab";
-            this.optionsTab.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.optionsTab.Padding = new System.Windows.Forms.Padding(3);
             this.optionsTab.Size = new System.Drawing.Size(767, 402);
             this.optionsTab.TabIndex = 1;
             this.optionsTab.Text = "Options";
@@ -289,7 +289,7 @@
             // 
             this.determinerSettingsHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.determinerSettingsHelp.Location = new System.Drawing.Point(741, 182);
-            this.determinerSettingsHelp.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.determinerSettingsHelp.Margin = new System.Windows.Forms.Padding(2);
             this.determinerSettingsHelp.Name = "determinerSettingsHelp";
             this.determinerSettingsHelp.Size = new System.Drawing.Size(16, 19);
             this.determinerSettingsHelp.TabIndex = 17;
@@ -316,7 +316,7 @@
             0,
             131072});
             this.addressWeakThreshold.Location = new System.Drawing.Point(283, 176);
-            this.addressWeakThreshold.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.addressWeakThreshold.Margin = new System.Windows.Forms.Padding(2);
             this.addressWeakThreshold.Maximum = new decimal(new int[] {
             1,
             0,
@@ -350,7 +350,7 @@
             0,
             131072});
             this.addressThreshold.Location = new System.Drawing.Point(178, 176);
-            this.addressThreshold.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.addressThreshold.Margin = new System.Windows.Forms.Padding(2);
             this.addressThreshold.Maximum = new decimal(new int[] {
             1,
             0,
@@ -368,7 +368,7 @@
             // setNumThreads
             // 
             this.setNumThreads.Location = new System.Drawing.Point(52, 176);
-            this.setNumThreads.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.setNumThreads.Margin = new System.Windows.Forms.Padding(2);
             this.setNumThreads.Name = "setNumThreads";
             this.setNumThreads.Size = new System.Drawing.Size(122, 19);
             this.setNumThreads.TabIndex = 12;
@@ -389,7 +389,7 @@
             // numThreads
             // 
             this.numThreads.Location = new System.Drawing.Point(3, 176);
-            this.numThreads.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numThreads.Margin = new System.Windows.Forms.Padding(2);
             this.numThreads.Maximum = new decimal(new int[] {
             20,
             0,
@@ -498,7 +498,7 @@
             // 
             this.processorSettingsHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.processorSettingsHelp.Location = new System.Drawing.Point(741, 103);
-            this.processorSettingsHelp.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.processorSettingsHelp.Margin = new System.Windows.Forms.Padding(2);
             this.processorSettingsHelp.Name = "processorSettingsHelp";
             this.processorSettingsHelp.Size = new System.Drawing.Size(16, 19);
             this.processorSettingsHelp.TabIndex = 18;
@@ -529,8 +529,6 @@
             // includeNonMLSAgent
             // 
             this.includeNonMLSAgent.AutoSize = true;
-            this.includeNonMLSAgent.Checked = true;
-            this.includeNonMLSAgent.CheckState = System.Windows.Forms.CheckState.Checked;
             this.includeNonMLSAgent.Location = new System.Drawing.Point(3, 102);
             this.includeNonMLSAgent.Name = "includeNonMLSAgent";
             this.includeNonMLSAgent.Size = new System.Drawing.Size(140, 17);
@@ -576,7 +574,7 @@
             // 
             this.miscSettingsHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.miscSettingsHelp.Location = new System.Drawing.Point(741, 47);
-            this.miscSettingsHelp.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.miscSettingsHelp.Margin = new System.Windows.Forms.Padding(2);
             this.miscSettingsHelp.Name = "miscSettingsHelp";
             this.miscSettingsHelp.Size = new System.Drawing.Size(16, 19);
             this.miscSettingsHelp.TabIndex = 18;
@@ -619,6 +617,8 @@
             // sameMLSFiles
             // 
             this.sameMLSFiles.AutoSize = true;
+            this.sameMLSFiles.Checked = true;
+            this.sameMLSFiles.CheckState = System.Windows.Forms.CheckState.Checked;
             this.sameMLSFiles.Location = new System.Drawing.Point(3, 43);
             this.sameMLSFiles.Name = "sameMLSFiles";
             this.sameMLSFiles.Size = new System.Drawing.Size(159, 17);
@@ -638,8 +638,8 @@
             this.configTab.Controls.Add(this.configFile);
             this.configTab.Location = new System.Drawing.Point(4, 22);
             this.configTab.Name = "configTab";
-            this.configTab.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.configTab.Size = new System.Drawing.Size(767, 399);
+            this.configTab.Padding = new System.Windows.Forms.Padding(3);
+            this.configTab.Size = new System.Drawing.Size(767, 402);
             this.configTab.TabIndex = 2;
             this.configTab.Text = "Configurations";
             this.configTab.UseVisualStyleBackColor = true;
@@ -648,7 +648,7 @@
             // 
             this.configSettingsHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.configSettingsHelp.Location = new System.Drawing.Point(748, 377);
-            this.configSettingsHelp.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.configSettingsHelp.Margin = new System.Windows.Forms.Padding(2);
             this.configSettingsHelp.Name = "configSettingsHelp";
             this.configSettingsHelp.Size = new System.Drawing.Size(16, 19);
             this.configSettingsHelp.TabIndex = 18;

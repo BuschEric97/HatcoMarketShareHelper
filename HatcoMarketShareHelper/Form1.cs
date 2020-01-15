@@ -204,7 +204,7 @@ namespace HatcoMarketShareHelper
                             "\n\tif the main threshold doesn't detect a match. Will mark as" +
                             "\n\tlikely match if matched with this threshold. This shouldn't" +
                             "\n\tneed to be changed.");
-             
+
         }
 
         private void processorSettingsHelp_Click(object sender, EventArgs e)
@@ -224,7 +224,7 @@ namespace HatcoMarketShareHelper
                             "\n\tacross both the determiner and processor" + "\n\n" +
                             "Run as Capstone: Checking this box will modify processing" +
                             "\n\tto represent results for Capstone needs" + "\n\n" +
-                            "Do sorting and subtotals: When unchecked, processor" + 
+                            "Do sorting and subtotals: When unchecked, processor" +
                             "\n\twill skip sorting and subtotaling");
         }
 
