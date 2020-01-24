@@ -50,9 +50,6 @@
             this.addressWeakThreshold = new System.Windows.Forms.NumericUpDown();
             this.label13 = new System.Windows.Forms.Label();
             this.addressThreshold = new System.Windows.Forms.NumericUpDown();
-            this.setNumThreads = new System.Windows.Forms.Button();
-            this.label12 = new System.Windows.Forms.Label();
-            this.numThreads = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.MLSInputFile_Determiner = new System.Windows.Forms.TextBox();
             this.openMLSFile_Determiner = new System.Windows.Forms.Button();
@@ -93,7 +90,6 @@
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.addressWeakThreshold)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.addressThreshold)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numThreads)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.configTab.SuspendLayout();
@@ -269,9 +265,6 @@
             this.panel1.Controls.Add(this.addressWeakThreshold);
             this.panel1.Controls.Add(this.label13);
             this.panel1.Controls.Add(this.addressThreshold);
-            this.panel1.Controls.Add(this.setNumThreads);
-            this.panel1.Controls.Add(this.label12);
-            this.panel1.Controls.Add(this.numThreads);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.MLSInputFile_Determiner);
             this.panel1.Controls.Add(this.openMLSFile_Determiner);
@@ -300,7 +293,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(281, 160);
+            this.label14.Location = new System.Drawing.Point(106, 161);
             this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(143, 13);
@@ -315,7 +308,7 @@
             0,
             0,
             131072});
-            this.addressWeakThreshold.Location = new System.Drawing.Point(283, 176);
+            this.addressWeakThreshold.Location = new System.Drawing.Point(109, 177);
             this.addressWeakThreshold.Margin = new System.Windows.Forms.Padding(2);
             this.addressWeakThreshold.Maximum = new decimal(new int[] {
             1,
@@ -334,7 +327,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(176, 160);
+            this.label13.Location = new System.Drawing.Point(0, 161);
             this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(91, 13);
@@ -349,7 +342,7 @@
             0,
             0,
             131072});
-            this.addressThreshold.Location = new System.Drawing.Point(178, 176);
+            this.addressThreshold.Location = new System.Drawing.Point(3, 177);
             this.addressThreshold.Margin = new System.Windows.Forms.Padding(2);
             this.addressThreshold.Maximum = new decimal(new int[] {
             1,
@@ -364,50 +357,6 @@
             0,
             0,
             131072});
-            // 
-            // setNumThreads
-            // 
-            this.setNumThreads.Location = new System.Drawing.Point(52, 176);
-            this.setNumThreads.Margin = new System.Windows.Forms.Padding(2);
-            this.setNumThreads.Name = "setNumThreads";
-            this.setNumThreads.Size = new System.Drawing.Size(122, 19);
-            this.setNumThreads.TabIndex = 12;
-            this.setNumThreads.Text = "Set to # of CPU Cores";
-            this.setNumThreads.UseVisualStyleBackColor = true;
-            this.setNumThreads.Click += new System.EventHandler(this.setNumThreads_Click);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(2, 160);
-            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(94, 13);
-            this.label12.TabIndex = 11;
-            this.label12.Text = "Number of threads";
-            // 
-            // numThreads
-            // 
-            this.numThreads.Location = new System.Drawing.Point(3, 176);
-            this.numThreads.Margin = new System.Windows.Forms.Padding(2);
-            this.numThreads.Maximum = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
-            this.numThreads.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numThreads.Name = "numThreads";
-            this.numThreads.Size = new System.Drawing.Size(45, 20);
-            this.numThreads.TabIndex = 10;
-            this.numThreads.Value = new decimal(new int[] {
-            4,
-            0,
-            0,
-            0});
             // 
             // label8
             // 
@@ -749,7 +698,8 @@
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "HATCo Market Share Helper";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "HATCO/Capstone RE Market Share Analyzer";
             this.tabControl1.ResumeLayout(false);
             this.homeTab.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
@@ -761,7 +711,6 @@
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.addressWeakThreshold)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.addressThreshold)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numThreads)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
@@ -819,9 +768,6 @@
         private System.Windows.Forms.Button saveConfigData;
         private System.Windows.Forms.Button refreshConfigData;
         private System.Windows.Forms.TextBox configData;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.NumericUpDown numThreads;
-        private System.Windows.Forms.Button setNumThreads;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.NumericUpDown addressWeakThreshold;
         private System.Windows.Forms.Label label13;

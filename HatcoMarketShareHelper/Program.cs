@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 using Excel = Microsoft.Office.Interop.Excel;
+using System.Runtime.InteropServices;
 
 namespace HatcoMarketShareHelper
 {
@@ -30,46 +31,64 @@ namespace HatcoMarketShareHelper
             Application.SetCompatibleTextRenderingDefault(false);
 
             Form1 form = new Form1();
-            EventHandlers handlers = new EventHandlers();
 
-            Application.ApplicationExit += new EventHandler(handlers.OnApplicationExit);
+            Application.ApplicationExit += new EventHandler(OnApplicationExit);
             Application.Run(form);
         }
-    }
 
-    public class EventHandlers
-    {
         /// <summary>
         /// Close all Excel processes running on the MLS, and AIM files on application exit
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void OnApplicationExit(object sender, EventArgs e)
+        public static void OnApplicationExit(object sender, EventArgs e)
         {
-            Process[] procs = Process.GetProcessesByName("EXCEL"); // get all excel processes on the system
-            Console.WriteLine(procs);
-            Form1 app = (Form1)sender;
-            //string[] MLS1 = app.MLSInputFile_Processor.Text.Split('\\');
-            //string[] MLS2 = app.MLSInputFile_Determiner.Text.Split('\\');
-            //string[] AIM = app.AIMInputFile.Text.Split('\\');
-            //string[] files = {MLS1.Last(), MLS2.Last(), AIM.Last()}; 
-            string[] files = {"mls", "aim"};
-            
-            foreach (var proc in procs)
+            //Process[] procs = Process.GetProcessesByName("EXCEL"); // get all excel processes on the system
+            //Console.WriteLine(procs);
+            //Form1 app = (Form1)sender;
+            //string[] files = { "mls", "aim" };
+
+            //foreach (var proc in procs)
+            //{
+            //    proc.Kill(); // close all excel processes on the system
+            //}
+
+            // release com objects if they exist so the excel processes
+            // are fully killed from running in the background
+            if (xlRangeMLS != null) Marshal.ReleaseComObject(xlRangeMLS);
+            if (xlRangeAIM != null) Marshal.ReleaseComObject(xlRangeAIM);
+            if (xlWorksheetMLS != null) Marshal.ReleaseComObject(xlWorksheetMLS);
+            if (xlWorksheetAIM != null) Marshal.ReleaseComObject(xlWorksheetAIM);
+
+            // save, close, and release workbooks if they exist
+            if (xlWorkbookMLS != null)
             {
-                //string procTitle = proc.MainWindowTitle.ToLower();
-
-                //foreach (string file in files)
-                //{
-                //    if (procTitle.Contains(file))
-                //    {
-                //        proc.Close(); // close the excel process if it is operating on one of the three program files
-                //        Console.WriteLine("Closing Excel process on file containing: \"" + file + "\"");
-                //    }
-                //}
-
-                proc.Kill(); // close all excel processes on the system
+                xlWorkbookMLS.Close();
+                Console.WriteLine("closed MLS workbook");
+                Marshal.ReleaseComObject(xlWorkbookMLS);
             }
+            if (xlWorkbookAIM != null)
+            {
+                xlWorkbookAIM.Close();
+                Console.WriteLine("closed AIM workbook");
+                Marshal.ReleaseComObject(xlWorkbookAIM);
+            }
+
+            // quit and release excel app if it exists
+            if (xlApp != null)
+            {
+                xlApp.Quit();
+                Console.WriteLine("quit Excel app");
+                Marshal.ReleaseComObject(xlApp);
+            }
+
+            xlApp = null;
+            xlWorkbookMLS = null;
+            xlWorkbookAIM = null;
+            xlWorksheetMLS = null;
+            xlWorksheetAIM = null;
+            xlRangeMLS = null;
+            xlRangeAIM = null;
 
             Console.WriteLine("Exiting Winform App.");
         }

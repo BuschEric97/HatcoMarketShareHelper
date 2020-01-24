@@ -11,71 +11,11 @@ using System.Threading;
 
 namespace HatcoMarketShareHelper
 {
-    public class DeterminerThread
-    {
-        //private Excel._Worksheet worksheetMLS;
-        //private Excel._Worksheet worksheetAIM;
-        //private Excel.Range rangeMLS;
-        //private Excel.Range rangeAIM;
-        private Dictionary<string, int> counts;
-        private Dictionary<string, int> cols;
-        private Dictionary<string, double> thresholds;
-        private Form1 mainForm;
-        //private int numThreads;
-        //private int currThread;
-        private int rangeMin;
-        private int rangeMax;
-        private static Object mutex = new Object();
-
-        public DeterminerThread(/*Excel._Worksheet xlWorksheetMLS, Excel._Worksheet xlWorksheetAIM,
-            Excel.Range xlRangeMLS, Excel.Range xlRangeAIM,*/ Dictionary<string, int> rangeCount,
-            Dictionary<string, int> relevantCols, Dictionary<string, double> thresholdsDict,
-            Form1 form, int min, int max)
-        {
-            //worksheetMLS = xlWorksheetMLS;
-            //worksheetAIM = xlWorksheetAIM;
-            //rangeMLS = xlRangeMLS;
-            //rangeAIM = xlRangeAIM;
-            counts = rangeCount;
-            cols = relevantCols;
-            thresholds = thresholdsDict;
-            mainForm = form;
-            //numThreads = threads;
-            //currThread = thread;
-            rangeMin = min;
-            rangeMax = max;
-        }
-
-        public void threadMethod()
-        {
-            //int range = counts["rowCountMLS"] / numThreads;
-            //int rangeMin = (range * currThread) + 2;
-            //int rangeMax = Math.Min((range * currThread) + (range + 2), counts["rowCountMLS"]);
-
-            try
-            {
-                DeterminerWork det = new DeterminerWork();
-                det.determinerDoWork(/*worksheetMLS, worksheetAIM, rangeMLS, rangeAIM,*/
-                    counts, cols, thresholds, mainForm, rangeMin, rangeMax, mutex);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                MessageBox.Show(e.Message);
-            }
-        }
-    }
-
     public class Determiner
     {
         /// <summary>
         /// run through each file in MLSFileName and check against AIMFileName files
         /// to determine whether the files in MLSFileName closed with hatco.
-        /// 
-        /// addressThreshold, addressThresholdWeak,
-        /// ownerThreshold, and ownerThresholdWeak are percentages (between 0 and 1)
-        /// 
-        /// progress is used to update the windowsform's progress bar
         /// </summary>
         /// <param name="MLSFileName"></param>
         /// <param name="AIMFileName"></param>
@@ -83,7 +23,7 @@ namespace HatcoMarketShareHelper
         /// <param name="ownerThreshold"></param>
         public void mainDeterminer(string MLSFileName, string AIMFileName, double addressThreshold,
             double addressThresholdWeak, double ownerThreshold, double ownerThresholdWeak,
-            Form1 form, int numThreads)
+            Form1 form)
         {
             Application.UseWaitCursor = true; // set the cursor to waiting symbol
 
@@ -187,76 +127,53 @@ namespace HatcoMarketShareHelper
                     // set up the progress bar
                     MethodInvoker inv = delegate
                     {
-                        form.determinerProgressBar.Maximum = rangeCount["rowCountMLS"] + numThreads;
+                        form.determinerProgressBar.Maximum = rangeCount["rowCountMLS"];
                     };
                     form.Invoke(inv);
 
-                    // do the multithreading tasks in small chunks in order to let
-                    // the garbage collector do its work and prevent what looks like a memory leak. These
-                    // small chunks are incremented through the whole range of the MLS file until every
-                    // row has been processed.
-                    Thread[] threads = new Thread[numThreads];
-                    DeterminerThread[] detThreads = new DeterminerThread[numThreads];
-                    int range = 16;
-                    for (int lowerRange = 2; lowerRange + range <= rangeCount["rowCountMLS"];
-                        lowerRange = Math.Min(lowerRange + range, rangeCount["rowCountMLS"]))
-                    {
-                        for (int i = 0; i < numThreads; i++)
-                        {
-                            int threadRange = range / numThreads;
-                            int rangeMin = (threadRange * i) + lowerRange;
-                            int rangeMax = Math.Min((threadRange * i) + (threadRange + lowerRange),
-                                rangeCount["rowCountMLS"]);
-
-                            detThreads[i] = new DeterminerThread(/*xlWorksheetMLS, xlWorksheetAIM, xlRangeMLS,
-                            xlRangeAIM,*/ rangeCount, relevantCols, thresholds, form, rangeMin, rangeMax);
-
-                            threads[i] = new Thread(new ThreadStart(detThreads[i].threadMethod));
-                            threads[i].IsBackground = true;
-                            threads[i].Start();
-                        }
-
-                        for (int i = 0; i < numThreads; i++)
-                        {
-                            threads[i].Join();
-                        }
-
-                        GC.Collect();
-                        GC.WaitForPendingFinalizers();
-                    }
-
-                    // wait for all threads to finish processing before returning
-                    //for (int i = 0; i < numThreads; i++)
-                    //    threads[i].Join();
+                    // run the determiner work
+                    DeterminerWork det = new DeterminerWork();
+                    int statusCode = det.determinerDoWork(rangeCount, relevantCols, thresholds, form);
+                    if (statusCode > 0)
+                        throw new Exception("Determiner work returned status code " + statusCode);
                 }
                 catch (Exception ex) // if an exception is caught, close the excel files so they aren't held hostage
                 {
                     Console.WriteLine("Problem with determiner processing. Closing excel files.");
 
-                    // cleanup
-                    GC.Collect();
-                    GC.WaitForPendingFinalizers();
+                    try
+                    {
+                        // cleanup
+                        GC.Collect();
+                        GC.WaitForPendingFinalizers();
 
-                    // release com objects so the excel processes are
-                    // fully killed from running in the background
-                    Marshal.ReleaseComObject(Program.xlRangeMLS);
-                    Marshal.ReleaseComObject(Program.xlRangeAIM);
-                    Marshal.ReleaseComObject(Program.xlWorksheetMLS);
-                    Marshal.ReleaseComObject(Program.xlWorksheetAIM);
+                        // release com objects if they exist so the excel processes
+                        // are fully killed from running in the background
+                        Marshal.ReleaseComObject(Program.xlRangeMLS);
+                        Marshal.ReleaseComObject(Program.xlRangeAIM);
+                        Marshal.ReleaseComObject(Program.xlWorksheetMLS);
+                        Marshal.ReleaseComObject(Program.xlWorksheetAIM);
 
-                    // save, close, and release workbooks
-                    Program.xlWorkbookMLS.Close();
-                    Console.WriteLine("closed MLS workbook");
-                    Program.xlWorkbookAIM.Close();
-                    Console.WriteLine("closed AIM workbook");
-                    Marshal.ReleaseComObject(Program.xlWorkbookMLS);
-                    Marshal.ReleaseComObject(Program.xlWorkbookAIM);
+                        // save, close, and release workbooks if they exist
+                        Program.xlWorkbookMLS.Close();
+                        Console.WriteLine("closed MLS workbook");
+                        Marshal.ReleaseComObject(Program.xlWorkbookMLS);
+                        Program.xlWorkbookAIM.Close();
+                        Console.WriteLine("closed AIM workbook");
+                        Marshal.ReleaseComObject(Program.xlWorkbookAIM);
 
-                    // quit and release excel app
-                    Program.xlApp.Quit();
-                    Marshal.ReleaseComObject(Program.xlApp);
+                        // quit and release excel app if it exists
+                        Program.xlApp.Quit();
+                        Console.WriteLine("quit Excel app");
+                        Marshal.ReleaseComObject(Program.xlApp);
+                    }
+                    catch (Exception ee)
+                    {
+                        Console.WriteLine(ee);
+                    }
 
-                    throw ex;
+                    MessageBox.Show(ex.ToString());
+                    return;
                 }
 
                 // cleanup

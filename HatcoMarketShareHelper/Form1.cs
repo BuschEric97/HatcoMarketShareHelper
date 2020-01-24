@@ -19,7 +19,6 @@ namespace HatcoMarketShareHelper
         {
             InitializeComponent();
             configFile.Text = Environment.CurrentDirectory + "\\config.txt";
-            numThreads.Value = 8;
         }
 
         private void openMLSFile_Determiner_Click(object sender, EventArgs e)
@@ -74,7 +73,7 @@ namespace HatcoMarketShareHelper
                 watch.Start();
                 await Task.Run(() => det.mainDeterminer(MLSInputFile_Determiner.Text, AIMInputFile.Text,
                     (double)addressThreshold.Value, (double)addressWeakThreshold.Value, 0.25, 0.4,
-                    this, (int)numThreads.Value));
+                    this));
                 watch.Stop();
                 determinerProgressBar.Value = determinerProgressBar.Maximum;
                 MessageBox.Show("Complete!\nTime elapsed: " + watch.Elapsed);
@@ -186,19 +185,11 @@ namespace HatcoMarketShareHelper
             }
         }
 
-        private void setNumThreads_Click(object sender, EventArgs e)
-        {
-            numThreads.Value = Environment.ProcessorCount - 1;
-        }
-
         private void determinerSettingsHelp_Click(object sender, EventArgs e)
         {
             MessageBox.Show("MLS Input File: This is the input file for MLS data" +
                             "\n\tas well as the output file for determiner results" + "\n\n" +
                             "AIM Input File: This is the input file for AIM data" + "\n\n" +
-                            "Number of threads: This is the amount of processor cores" +
-                            "\n\tthe determiner will use to process the results. Default" +
-                            "\n\tvalue is the maximum number of cores in the system" + "\n\n" +
                             "Address threshold: This is the threshold for string difference" +
                             "\n\twhen comparing addresses between MLS and AIM data. This" +
                             "\n\tshouldn't need to be changed." + "\n\n" +
@@ -206,7 +197,6 @@ namespace HatcoMarketShareHelper
                             "\n\tif the main threshold doesn't detect a match. Will mark as" +
                             "\n\tlikely match if matched with this threshold. This shouldn't" +
                             "\n\tneed to be changed.");
-
         }
 
         private void processorSettingsHelp_Click(object sender, EventArgs e)
