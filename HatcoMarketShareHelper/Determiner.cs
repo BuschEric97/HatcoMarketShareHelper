@@ -191,12 +191,10 @@ namespace HatcoMarketShareHelper
                     };
                     form.Invoke(inv);
 
-                    ///TODO: Create logic to do the multithreading tasks in small chunks in order to let
-                    /// the garbage collector do its work and prevent what looks like a memory leak. These
-                    /// small chunks are incremented through the whole range of the MLS file until every
-                    /// row has been processed.
-
-                    // create and start all threads for processing
+                    // do the multithreading tasks in small chunks in order to let
+                    // the garbage collector do its work and prevent what looks like a memory leak. These
+                    // small chunks are incremented through the whole range of the MLS file until every
+                    // row has been processed.
                     Thread[] threads = new Thread[numThreads];
                     DeterminerThread[] detThreads = new DeterminerThread[numThreads];
                     int range = 16;
