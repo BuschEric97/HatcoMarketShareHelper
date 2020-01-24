@@ -4,11 +4,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace HatcoMarketShareHelper
 {
     static class Program
     {
+        // global variables used for determiner processing.
+        // these variables are global in order to prevent memory leak issue.
+        public static Excel.Application xlApp = null;
+        public static Excel.Workbook xlWorkbookMLS = null;
+        public static Excel.Workbook xlWorkbookAIM = null;
+        public static Excel.Worksheet xlWorksheetMLS = null;
+        public static Excel.Worksheet xlWorksheetAIM = null;
+        public static Excel.Range xlRangeMLS = null;
+        public static Excel.Range xlRangeAIM = null;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>

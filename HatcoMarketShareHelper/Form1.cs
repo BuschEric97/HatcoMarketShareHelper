@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Management;
+using System.Management.Instrumentation;
 
 namespace HatcoMarketShareHelper
 {
@@ -17,7 +19,7 @@ namespace HatcoMarketShareHelper
         {
             InitializeComponent();
             configFile.Text = Environment.CurrentDirectory + "\\config.txt";
-            numThreads.Value = Environment.ProcessorCount;
+            numThreads.Value = 8;
         }
 
         private void openMLSFile_Determiner_Click(object sender, EventArgs e)
@@ -186,7 +188,7 @@ namespace HatcoMarketShareHelper
 
         private void setNumThreads_Click(object sender, EventArgs e)
         {
-            numThreads.Value = Environment.ProcessorCount;
+            numThreads.Value = Environment.ProcessorCount - 1;
         }
 
         private void determinerSettingsHelp_Click(object sender, EventArgs e)

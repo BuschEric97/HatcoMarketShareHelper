@@ -13,45 +13,49 @@ namespace HatcoMarketShareHelper
 {
     public class DeterminerThread
     {
-        private Excel._Worksheet worksheetMLS;
-        private Excel._Worksheet worksheetAIM;
-        private Excel.Range rangeMLS;
-        private Excel.Range rangeAIM;
+        //private Excel._Worksheet worksheetMLS;
+        //private Excel._Worksheet worksheetAIM;
+        //private Excel.Range rangeMLS;
+        //private Excel.Range rangeAIM;
         private Dictionary<string, int> counts;
         private Dictionary<string, int> cols;
         private Dictionary<string, double> thresholds;
         private Form1 mainForm;
-        private int numThreads;
-        private int currThread;
+        //private int numThreads;
+        //private int currThread;
+        private int rangeMin;
+        private int rangeMax;
         private static Object mutex = new Object();
 
-        public DeterminerThread(Excel._Worksheet xlWorksheetMLS, Excel._Worksheet xlWorksheetAIM,
-            Excel.Range xlRangeMLS, Excel.Range xlRangeAIM, Dictionary<string, int> rangeCount,
+        public DeterminerThread(/*Excel._Worksheet xlWorksheetMLS, Excel._Worksheet xlWorksheetAIM,
+            Excel.Range xlRangeMLS, Excel.Range xlRangeAIM,*/ Dictionary<string, int> rangeCount,
             Dictionary<string, int> relevantCols, Dictionary<string, double> thresholdsDict,
-            Form1 form, int threads, int thread)
+            Form1 form, int min, int max)
         {
-            worksheetMLS = xlWorksheetMLS;
-            worksheetAIM = xlWorksheetAIM;
-            rangeMLS = xlRangeMLS;
-            rangeAIM = xlRangeAIM;
+            //worksheetMLS = xlWorksheetMLS;
+            //worksheetAIM = xlWorksheetAIM;
+            //rangeMLS = xlRangeMLS;
+            //rangeAIM = xlRangeAIM;
             counts = rangeCount;
             cols = relevantCols;
             thresholds = thresholdsDict;
             mainForm = form;
-            numThreads = threads;
-            currThread = thread;
+            //numThreads = threads;
+            //currThread = thread;
+            rangeMin = min;
+            rangeMax = max;
         }
 
         public void threadMethod()
         {
-            int range = counts["rowCountMLS"] / numThreads;
-            int rangeMin = (range * currThread) + 2;
-            int rangeMax = Math.Min((range * currThread) + (range + 2), counts["rowCountMLS"]);
+            //int range = counts["rowCountMLS"] / numThreads;
+            //int rangeMin = (range * currThread) + 2;
+            //int rangeMax = Math.Min((range * currThread) + (range + 2), counts["rowCountMLS"]);
 
             try
             {
                 DeterminerWork det = new DeterminerWork();
-                det.determinerDoWork(worksheetMLS, worksheetAIM, rangeMLS, rangeAIM,
+                det.determinerDoWork(/*worksheetMLS, worksheetAIM, rangeMLS, rangeAIM,*/
                     counts, cols, thresholds, mainForm, rangeMin, rangeMax, mutex);
             }
             catch (Exception e)
@@ -84,26 +88,27 @@ namespace HatcoMarketShareHelper
             Application.UseWaitCursor = true; // set the cursor to waiting symbol
 
             // open all excel files for use
-            Excel.Application xlApp = new Excel.Application();
-            Excel.Workbook xlWorkbookMLS = null;
-            Excel.Workbook xlWorkbookAIM = null;
+            //Excel.Application xlApp = new Excel.Application();
+            //Excel.Workbook xlWorkbookMLS = null;
+            //Excel.Workbook xlWorkbookAIM = null;
+            Program.xlApp = new Excel.Application();
             try
             {
-                xlWorkbookMLS = xlApp.Workbooks.Open(MLSFileName);
-                xlWorkbookAIM = xlApp.Workbooks.Open(AIMFileName);
+                Program.xlWorkbookMLS = Program.xlApp.Workbooks.Open(MLSFileName);
+                Program.xlWorkbookAIM = Program.xlApp.Workbooks.Open(AIMFileName);
             }
             catch (Exception ex) // catch possible "file could not open" exception
             {
                 throw ex;
             }
 
-            if (xlWorkbookAIM != null && xlWorkbookMLS != null) // check that excel files opened properly
+            if (Program.xlWorkbookAIM != null && Program.xlWorkbookMLS != null) // check that excel files opened properly
             {
                 // open worksheets and range in excel files for use
-                Excel._Worksheet xlWorksheetMLS = xlWorkbookMLS.Sheets[1];
-                Excel._Worksheet xlWorksheetAIM = xlWorkbookAIM.Sheets[1];
-                Excel.Range xlRangeMLS = xlWorksheetMLS.UsedRange;
-                Excel.Range xlRangeAIM = xlWorksheetAIM.UsedRange;
+                Program.xlWorksheetMLS = Program.xlWorkbookMLS.Sheets[1];
+                Program.xlWorksheetAIM = Program.xlWorkbookAIM.Sheets[1];
+                Program.xlRangeMLS = Program.xlWorksheetMLS.UsedRange;
+                Program.xlRangeAIM = Program.xlWorksheetAIM.UsedRange;
 
                 Dictionary<string, int> rangeCount = new Dictionary<string, int>();
                 Dictionary<string, int> relevantCols = new Dictionary<string, int>();
@@ -117,10 +122,10 @@ namespace HatcoMarketShareHelper
                 {
                     // do the main processing on the excel files and catch any exceptions that are thrown
                     // get the range of rows and columns for AIM excel file
-                    rangeCount.Add("rowCountMLS", xlRangeMLS.Rows.Count);
-                    rangeCount.Add("colCountMLS", xlRangeMLS.Columns.Count);
-                    rangeCount.Add("rowCountAIM", xlRangeAIM.Rows.Count);
-                    rangeCount.Add("colCountAIM", xlRangeAIM.Columns.Count);
+                    rangeCount.Add("rowCountMLS", Program.xlRangeMLS.Rows.Count);
+                    rangeCount.Add("colCountMLS", Program.xlRangeMLS.Columns.Count);
+                    rangeCount.Add("rowCountAIM", Program.xlRangeAIM.Rows.Count);
+                    rangeCount.Add("colCountAIM", Program.xlRangeAIM.Columns.Count);
 
                     // relevant columns indeces
                     relevantCols.Add("MLSOwnerCol", 0);
@@ -138,17 +143,17 @@ namespace HatcoMarketShareHelper
                     // determine the columns in MLS file that have relevant information
                     for (int i = 1; i <= rangeCount["colCountMLS"]; i++)
                     {
-                        if (xlRangeMLS.Cells[1, i].Value2 != null) // check that the cell is not empty
+                        if (Program.xlRangeMLS.Cells[1, i].Value2 != null) // check that the cell is not empty
                         {
-                            if (xlRangeMLS.Cells[1, i].Value2.ToString().Contains("Owner"))
+                            if (Program.xlRangeMLS.Cells[1, i].Value2.ToString().Contains("Owner"))
                                 relevantCols["MLSOwnerCol"] = i;
-                            else if (xlRangeMLS.Cells[1, i].Value2.ToString().Contains("Address"))
+                            else if (Program.xlRangeMLS.Cells[1, i].Value2.ToString().Contains("Address"))
                                 relevantCols["MLSAddressCol"] = i;
-                            else if (xlRangeMLS.Cells[1, i].Value2.ToString().Contains("Close Date"))
+                            else if (Program.xlRangeMLS.Cells[1, i].Value2.ToString().Contains("Close Date"))
                                 relevantCols["MLSCloseDateCol"] = i;
-                            else if (xlRangeMLS.Cells[1, i].Value2.ToString().Contains("GF"))
+                            else if (Program.xlRangeMLS.Cells[1, i].Value2.ToString().Contains("GF"))
                                 relevantCols["MLSGFCol"] = i;
-                            else if (xlRangeMLS.Cells[1, i].Value2.ToString().Contains("Zip"))
+                            else if (Program.xlRangeMLS.Cells[1, i].Value2.ToString().Contains("Zip"))
                                 relevantCols["MLSZipCol"] = i;
                         }
                     }
@@ -156,19 +161,19 @@ namespace HatcoMarketShareHelper
                     // determine the columns in AIM file that have relevant information
                     for (int i = 1; i <= rangeCount["colCountAIM"]; i++)
                     {
-                        if (xlRangeAIM.Cells[1, i].Value2 != null) // check that the cell is not empty
+                        if (Program.xlRangeAIM.Cells[1, i].Value2 != null) // check that the cell is not empty
                         {
-                            if (xlRangeAIM.Cells[1, i].Value2.ToString().Contains("File Number"))
+                            if (Program.xlRangeAIM.Cells[1, i].Value2.ToString().Contains("File Number"))
                                 relevantCols["AIMFileNoCol"] = i;
-                            else if (xlRangeAIM.Cells[1, i].Value2.ToString().Contains("Date"))
+                            else if (Program.xlRangeAIM.Cells[1, i].Value2.ToString().Contains("Date"))
                                 relevantCols["AIMCloseDateCol"] = i;
-                            else if (xlRangeAIM.Cells[1, i].Value2.ToString().Contains("Property Address"))
+                            else if (Program.xlRangeAIM.Cells[1, i].Value2.ToString().Contains("Property Address"))
                                 relevantCols["AIMAddressCol"] = i;
-                            else if (xlRangeAIM.Cells[1, i].Value2.ToString().Contains("Seller"))
+                            else if (Program.xlRangeAIM.Cells[1, i].Value2.ToString().Contains("Seller"))
                                 relevantCols["AIMSellerCol"] = i;
-                            else if (xlRangeAIM.Cells[1, i].Value2.ToString().Contains("Escrow"))
+                            else if (Program.xlRangeAIM.Cells[1, i].Value2.ToString().Contains("Escrow"))
                                 relevantCols["AIMEscrowCol"] = i;
-                            else if (xlRangeAIM.Cells[1, i].Value2.ToString().Contains("Zip"))
+                            else if (Program.xlRangeAIM.Cells[1, i].Value2.ToString().Contains("Zip"))
                                 relevantCols["AIMZipCol"] = i;
                         }
                     }
@@ -176,8 +181,8 @@ namespace HatcoMarketShareHelper
                     // add new columns to MLS file
                     relevantCols.Add("MLSLikelyCloseCol", rangeCount["colCountMLS"] + 1);
                     relevantCols.Add("MLSEscrowOfficerCol", rangeCount["colCountMLS"] + 2);
-                    xlRangeMLS.Cells[1, relevantCols["MLSLikelyCloseCol"]].Value = "Likely Closed";
-                    xlRangeMLS.Cells[1, relevantCols["MLSEscrowOfficerCol"]].Value = "Escrow Officer";
+                    Program.xlRangeMLS.Cells[1, relevantCols["MLSLikelyCloseCol"]].Value = "Likely Closed";
+                    Program.xlRangeMLS.Cells[1, relevantCols["MLSEscrowOfficerCol"]].Value = "Escrow Officer";
 
                     // set up the progress bar
                     MethodInvoker inv = delegate
@@ -186,22 +191,45 @@ namespace HatcoMarketShareHelper
                     };
                     form.Invoke(inv);
 
+                    ///TODO: Create logic to do the multithreading tasks in small chunks in order to let
+                    /// the garbage collector do its work and prevent what looks like a memory leak. These
+                    /// small chunks are incremented through the whole range of the MLS file until every
+                    /// row has been processed.
+
                     // create and start all threads for processing
                     Thread[] threads = new Thread[numThreads];
                     DeterminerThread[] detThreads = new DeterminerThread[numThreads];
-                    for (int i = 0; i < numThreads; i++)
+                    int range = 16;
+                    for (int lowerRange = 2; lowerRange + range <= rangeCount["rowCountMLS"];
+                        lowerRange = Math.Min(lowerRange + range, rangeCount["rowCountMLS"]))
                     {
-                        detThreads[i] = new DeterminerThread(xlWorksheetMLS, xlWorksheetAIM, xlRangeMLS,
-                            xlRangeAIM, rangeCount, relevantCols, thresholds, form, numThreads, i);
+                        for (int i = 0; i < numThreads; i++)
+                        {
+                            int threadRange = range / numThreads;
+                            int rangeMin = (threadRange * i) + lowerRange;
+                            int rangeMax = Math.Min((threadRange * i) + (threadRange + lowerRange),
+                                rangeCount["rowCountMLS"]);
 
-                        threads[i] = new Thread(new ThreadStart(detThreads[i].threadMethod));
-                        threads[i].IsBackground = true;
-                        threads[i].Start();
+                            detThreads[i] = new DeterminerThread(/*xlWorksheetMLS, xlWorksheetAIM, xlRangeMLS,
+                            xlRangeAIM,*/ rangeCount, relevantCols, thresholds, form, rangeMin, rangeMax);
+
+                            threads[i] = new Thread(new ThreadStart(detThreads[i].threadMethod));
+                            threads[i].IsBackground = true;
+                            threads[i].Start();
+                        }
+
+                        for (int i = 0; i < numThreads; i++)
+                        {
+                            threads[i].Join();
+                        }
+
+                        GC.Collect();
+                        GC.WaitForPendingFinalizers();
                     }
 
                     // wait for all threads to finish processing before returning
-                    for (int i = 0; i < numThreads; i++)
-                        threads[i].Join();
+                    //for (int i = 0; i < numThreads; i++)
+                    //    threads[i].Join();
                 }
                 catch (Exception ex) // if an exception is caught, close the excel files so they aren't held hostage
                 {
@@ -213,22 +241,22 @@ namespace HatcoMarketShareHelper
 
                     // release com objects so the excel processes are
                     // fully killed from running in the background
-                    Marshal.ReleaseComObject(xlRangeMLS);
-                    Marshal.ReleaseComObject(xlRangeAIM);
-                    Marshal.ReleaseComObject(xlWorksheetMLS);
-                    Marshal.ReleaseComObject(xlWorksheetAIM);
+                    Marshal.ReleaseComObject(Program.xlRangeMLS);
+                    Marshal.ReleaseComObject(Program.xlRangeAIM);
+                    Marshal.ReleaseComObject(Program.xlWorksheetMLS);
+                    Marshal.ReleaseComObject(Program.xlWorksheetAIM);
 
                     // save, close, and release workbooks
-                    xlWorkbookMLS.Close();
+                    Program.xlWorkbookMLS.Close();
                     Console.WriteLine("closed MLS workbook");
-                    xlWorkbookAIM.Close();
+                    Program.xlWorkbookAIM.Close();
                     Console.WriteLine("closed AIM workbook");
-                    Marshal.ReleaseComObject(xlWorkbookMLS);
-                    Marshal.ReleaseComObject(xlWorkbookAIM);
+                    Marshal.ReleaseComObject(Program.xlWorkbookMLS);
+                    Marshal.ReleaseComObject(Program.xlWorkbookAIM);
 
                     // quit and release excel app
-                    xlApp.Quit();
-                    Marshal.ReleaseComObject(xlApp);
+                    Program.xlApp.Quit();
+                    Marshal.ReleaseComObject(Program.xlApp);
 
                     throw ex;
                 }
@@ -239,24 +267,24 @@ namespace HatcoMarketShareHelper
 
                 // release com objects so the excel processes are
                 // fully killed from running in the background
-                Marshal.ReleaseComObject(xlRangeMLS);
-                Marshal.ReleaseComObject(xlRangeAIM);
-                Marshal.ReleaseComObject(xlWorksheetMLS);
-                Marshal.ReleaseComObject(xlWorksheetAIM);
+                Marshal.ReleaseComObject(Program.xlRangeMLS);
+                Marshal.ReleaseComObject(Program.xlRangeAIM);
+                Marshal.ReleaseComObject(Program.xlWorksheetMLS);
+                Marshal.ReleaseComObject(Program.xlWorksheetAIM);
 
                 // save, close, and release workbooks
-                xlWorkbookMLS.Save();
+                Program.xlWorkbookMLS.Save();
                 Console.WriteLine("saved MLS workbook");
-                xlWorkbookMLS.Close();
+                Program.xlWorkbookMLS.Close();
                 Console.WriteLine("closed MLS workbook");
-                xlWorkbookAIM.Close();
+                Program.xlWorkbookAIM.Close();
                 Console.WriteLine("closed AIM workbook");
-                Marshal.ReleaseComObject(xlWorkbookMLS);
-                Marshal.ReleaseComObject(xlWorkbookAIM);
+                Marshal.ReleaseComObject(Program.xlWorkbookMLS);
+                Marshal.ReleaseComObject(Program.xlWorkbookAIM);
 
                 // quit and release excel app
-                xlApp.Quit();
-                Marshal.ReleaseComObject(xlApp);
+                Program.xlApp.Quit();
+                Marshal.ReleaseComObject(Program.xlApp);
             }
 
             Application.UseWaitCursor = false; // set cursor back to default
