@@ -166,6 +166,14 @@ namespace HatcoMarketShareHelper
                         Program.xlApp.Quit();
                         Console.WriteLine("quit Excel app");
                         Marshal.ReleaseComObject(Program.xlApp);
+
+                        Program.xlApp = null;
+                        Program.xlWorkbookMLS = null;
+                        Program.xlWorkbookAIM = null;
+                        Program.xlWorksheetMLS = null;
+                        Program.xlWorksheetAIM = null;
+                        Program.xlRangeMLS = null;
+                        Program.xlRangeAIM = null;
                     }
                     catch (Exception ee)
                     {
@@ -200,6 +208,14 @@ namespace HatcoMarketShareHelper
                 // quit and release excel app
                 Program.xlApp.Quit();
                 Marshal.ReleaseComObject(Program.xlApp);
+
+                Program.xlApp = null;
+                Program.xlWorkbookMLS = null;
+                Program.xlWorkbookAIM = null;
+                Program.xlWorksheetMLS = null;
+                Program.xlWorksheetAIM = null;
+                Program.xlRangeMLS = null;
+                Program.xlRangeAIM = null;
             }
 
             Application.UseWaitCursor = false; // set cursor back to default
