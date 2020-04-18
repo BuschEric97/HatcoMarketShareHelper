@@ -75,6 +75,8 @@
   <ItemGroup>
     <Compile Include="Determiner.cs" />
     <Compile Include="DeterminerWork.cs" />
+    <Compile Include="Finalizer.cs" />
+    <Compile Include="FinalizerWork.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

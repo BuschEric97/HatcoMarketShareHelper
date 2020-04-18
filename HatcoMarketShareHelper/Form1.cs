@@ -27,7 +27,10 @@ namespace HatcoMarketShareHelper
             openFileDialogMLS.ShowDialog();
             MLSInputFile_Determiner.Text = openFileDialogMLS.FileName;
             if (sameMLSFiles.Checked)
+            {
                 MLSInputFile_Processor.Text = openFileDialogMLS.FileName;
+                MLSInputFile_Finalizer.Text = openFileDialogMLS.FileName;
+            }
         }
 
         private void openAIMFile_Click(object sender, EventArgs e)
@@ -43,13 +46,31 @@ namespace HatcoMarketShareHelper
             openFileDialogMLS.ShowDialog();
             MLSInputFile_Processor.Text = openFileDialogMLS.FileName;
             if (sameMLSFiles.Checked)
+            {
                 MLSInputFile_Determiner.Text = openFileDialogMLS.FileName;
+                MLSInputFile_Finalizer.Text = openFileDialogMLS.FileName;
+            }
+        }
+
+        private void openMLSFile_Finalizer_Click(object sender, EventArgs e)
+        {
+            openFileDialogMLS.ShowHelp = true;
+            openFileDialogMLS.ShowDialog();
+            MLSInputFile_Finalizer.Text = openFileDialogMLS.FileName;
+            if (sameMLSFiles.Checked)
+            {
+                MLSInputFile_Determiner.Text = openFileDialogMLS.FileName;
+                MLSInputFile_Processor.Text = openFileDialogMLS.FileName;
+            }
         }
 
         private void sameMLSFiles_CheckedChanged(object sender, EventArgs e)
         {
             if (sameMLSFiles.Checked)
+            {
                 MLSInputFile_Processor.Text = MLSInputFile_Determiner.Text;
+                MLSInputFile_Finalizer.Text = MLSInputFile_Determiner.Text;
+            }
         }
 
         private void openConfigFile_Click(object sender, EventArgs e)
@@ -65,19 +86,42 @@ namespace HatcoMarketShareHelper
             var watch = new System.Diagnostics.Stopwatch();
             determinerProgressBar.Maximum = 100;
             determinerProgressBar.Minimum = 0;
+            Form1 form = this;
 
             try
             {
                 // run main determiner function to perform the main function of the program
                 determinerProgressBar.Value = determinerProgressBar.Minimum;
                 watch.Start();
-                await Task.Run(() => det.mainDeterminer(MLSInputFile_Determiner.Text, AIMInputFile.Text,
+
+                Task mainTask = Task.Run(() => det.mainDeterminer(MLSInputFile_Determiner.Text, AIMInputFile.Text,
                     (double)addressThreshold.Value, (double)addressWeakThreshold.Value, 0.25, 0.4,
-                    this));
+                    form));
+
+                await Task.Run(() =>
+                {
+                    MethodInvoker inv = delegate
+                    {
+                        determinerProgressDetailed.Text = watch.Elapsed.ToString();
+                    };
+
+                    try
+                    {
+                        while (!mainTask.IsCompleted)
+                        {
+                            form.Invoke(inv);
+                        }
+                    }
+                    catch (Exception ee)
+                    {
+                        Console.WriteLine(ee);
+                    }
+                });
+
                 watch.Stop();
                 determinerProgressBar.Value = determinerProgressBar.Maximum;
                 MessageBox.Show("Complete!\nTime elapsed: " + watch.Elapsed);
-                determinerProgressDetailed.Text = "0/0";
+                determinerProgressDetailed.Text = "0";
                 determinerProgressBar.Value = determinerProgressBar.Minimum;
             }
             catch (Exception ex)
@@ -99,18 +143,41 @@ namespace HatcoMarketShareHelper
                 processorProgressBar.Increment(v);
             });
             Dictionary<string, string[]> specificAreas = getSpecificAreas();
+            Form1 form = this;
 
             try
             {
                 processorProgressBar.Value = processorProgressBar.Minimum;
                 watch.Start();
-                await Task.Run(() => proc.mainProcessor(MLSInputFile_Processor.Text,
+
+                Task mainTask = Task.Run(() => proc.mainProcessor(MLSInputFile_Processor.Text,
                     includeNonMLSAgent.Checked, runAsCapstone.Checked, doSubtotals.Checked,
                     specificAreas, progress, this));
+
+                await Task.Run(() =>
+                {
+                    MethodInvoker inv = delegate
+                    {
+                        processorProgressDetailed.Text = watch.Elapsed.ToString();
+                    };
+
+                    try
+                    {
+                        while (!mainTask.IsCompleted)
+                        {
+                            form.Invoke(inv);
+                        }
+                    }
+                    catch (Exception ee)
+                    {
+                        Console.WriteLine(ee);
+                    }
+                });
+
                 watch.Stop();
                 processorProgressBar.Value = processorProgressBar.Maximum;
                 MessageBox.Show("Complete!\nTime elapsed: " + watch.Elapsed);
-                processorProgressDetailed.Text = "0/0";
+                processorProgressDetailed.Text = "0";
                 processorProgressBar.Value = processorProgressBar.Minimum;
             }
             catch (Exception ex)
@@ -149,6 +216,61 @@ namespace HatcoMarketShareHelper
             return specificAreas;
         }
 
+        private async void runFinalizer_Click(object sender, EventArgs e)
+        {
+            Finalizer fin = new Finalizer();
+            var watch = new System.Diagnostics.Stopwatch();
+            finalizerProgressBar.Visible = true;
+            finalizerProgressBar.Maximum = 100;
+            finalizerProgressBar.Minimum = 0;
+            var progress = new Progress<int>(v =>
+            {
+                finalizerProgressBar.Increment(v);
+            });
+            Form1 form = this;
+
+            try
+            {
+                finalizerProgressBar.Value = finalizerProgressBar.Minimum;
+                watch.Start();
+
+                Task mainTask = Task.Run(() => fin.mainFinalizer(MLSInputFile_Finalizer.Text,
+                    decimal.ToInt32(NonCust_ClosingsThreshold.Value),
+                    double.Parse(NonCust_ClosingPercent.Text), progress, this));
+
+                await Task.Run(() =>
+                {
+                    MethodInvoker inv = delegate
+                    {
+                        finalizerProgressDetailed.Text = watch.Elapsed.ToString();
+                    };
+
+                    try
+                    {
+                        while (!mainTask.IsCompleted)
+                        {
+                            form.Invoke(inv);
+                        }
+                    }
+                    catch (Exception ee)
+                    {
+                        Console.WriteLine(ee);
+                    }
+                });
+
+                watch.Stop();
+                finalizerProgressBar.Value = finalizerProgressBar.Maximum;
+                MessageBox.Show("Complete!\nTime elapsed: " + watch.Elapsed);
+                finalizerProgressDetailed.Text = "0";
+                finalizerProgressBar.Value = finalizerProgressBar.Minimum;
+            }
+            catch (Exception ex)
+            {
+                // display any exceptions that are thrown as a popup message box
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
         private void refreshConfigData_Click(object sender, EventArgs e)
         {
             if (File.Exists(configFile.Text))
@@ -159,7 +281,7 @@ namespace HatcoMarketShareHelper
                     configData.Text = configLine;
                     while ((configLine = sr.ReadLine()) != null)
                     {
-                        configData.Text = configData.Text + " " + configLine;
+                        configData.Text = configData.Text + Environment.NewLine + configLine;
                     }
                 }
             }
@@ -174,7 +296,7 @@ namespace HatcoMarketShareHelper
         {
             if (File.Exists(configFile.Text))
             {
-                string[] configLines = configData.Text.Split(' ');
+                string[] configLines = configData.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                 File.WriteAllLines(configFile.Text, configLines);
                 MessageBox.Show("Successfully saved configuration file!");
             }
@@ -207,6 +329,16 @@ namespace HatcoMarketShareHelper
                             "\n\tomit any record with agent as \"Non-MLS Agent\" on" +
                             "\n\tHATCo data and omit any record with agent as" +
                             "\n\t\"Non Member\" on Capstone data");
+        }
+
+        private void finalizerSettingsHelp_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("MLS Input File: This is the input file for MLS data" +
+                            "\n\tas well as the output file for the finalizer results." + "\n\n" +
+                            "NonCust Closings Threshold: This is the threshold for how many" +
+                            "\n\tclosings each row of the NonCust spreadsheet should have." + "\n\n" +
+                            "NonCust Closing Percentage: This is the threshold for what percentage" +
+                            "\n\tis the max for each row in the NonCust spreadsheet.");
         }
 
         private void miscSettingsHelp_Click(object sender, EventArgs e)

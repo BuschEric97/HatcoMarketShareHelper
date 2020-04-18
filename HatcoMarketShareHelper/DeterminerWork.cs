@@ -229,6 +229,14 @@ namespace HatcoMarketShareHelper
                                         {
                                             addressMatch = 2;
                                             closedGFNumRow = currentAIMFile;
+
+                                            MethodInvoker inv = delegate
+                                            {
+                                                form.debugScreen.AppendText(Environment.NewLine +
+                                                    "Found match in address between row " + currentMLSFile
+                                                    + " in MLS xl file and row " + currentAIMFile + " in AIM xl file");
+                                            };
+                                            form.Invoke(inv);
                                             Console.WriteLine("Found match in address between row " + currentMLSFile
                                                 + " in MLS xl file and row " + currentAIMFile + " in AIM xl file");
                                             break; // if a match is found, there's no need to search any further
@@ -237,6 +245,14 @@ namespace HatcoMarketShareHelper
                                         {
                                             addressMatch = 1;
                                             closedGFNumRow = currentAIMFile;
+
+                                            MethodInvoker inv = delegate
+                                            {
+                                                form.debugScreen.AppendText(Environment.NewLine +
+                                                    "Found likely match in address between row " + currentMLSFile
+                                                    + " in MLS xl file and row " + currentAIMFile + " in AIM xl file");
+                                            };
+                                            form.Invoke(inv);
                                             Console.WriteLine("Found likely match in address between row " + currentMLSFile
                                                 + " in MLS xl file and row " + currentAIMFile + " in AIM xl file");
                                         }
@@ -255,6 +271,13 @@ namespace HatcoMarketShareHelper
                                 string escrOff = Program.xlRangeAIM.Cells[closedGFNumRow, relevantCols["AIMEscrowCol"]].Value.ToString();
                                 Program.xlRangeMLS.Cells[currentMLSFile, relevantCols["MLSGFCol"]].Value = closedGF;
                                 Program.xlRangeMLS.Cells[currentMLSFile, relevantCols["MLSEscrowOfficerCol"]].Value = escrOff;
+
+                                MethodInvoker inv = delegate
+                                {
+                                    form.debugScreen.AppendText(Environment.NewLine + "File on row " + currentMLSFile +
+                                        " of MLS xl file closed with GF #" + closedGF);
+                                };
+                                form.Invoke(inv);
                                 Console.WriteLine("File on row " + currentMLSFile + " of MLS xl file closed with GF #"
                                     + closedGF);
                             }
@@ -265,11 +288,24 @@ namespace HatcoMarketShareHelper
                                 Program.xlRangeMLS.Cells[currentMLSFile, relevantCols["MLSGFCol"]].Value = closedGF;
                                 Program.xlRangeMLS.Cells[currentMLSFile, relevantCols["MLSLikelyCloseCol"]].Value = "true";
                                 Program.xlRangeMLS.Cells[currentMLSFile, relevantCols["MLSEscrowOfficerCol"]].Value = escrOff;
+
+                                MethodInvoker inv = delegate
+                                {
+                                    form.debugScreen.AppendText(Environment.NewLine + "File on row " + currentMLSFile +
+                                        " likely closed with GF #" + closedGF);
+                                };
+                                form.Invoke(inv);
                                 Console.WriteLine("File on row " + currentMLSFile + " likely closed with GF #" + closedGF);
                             }
                             else
                             {
                                 Program.xlRangeMLS.Cells[currentMLSFile, relevantCols["MLSGFCol"]].Value = "did not close";
+
+                                MethodInvoker inv = delegate
+                                {
+                                    form.debugScreen.AppendText(Environment.NewLine + "File on row " + currentMLSFile + " did not close");
+                                };
+                                form.Invoke(inv);
                                 Console.WriteLine("File on row " + currentMLSFile + " did not close");
                             }
 
@@ -281,13 +317,13 @@ namespace HatcoMarketShareHelper
                             form.Invoke(inv1);
 
                             // update detailed progress after each row of MLS file
-                            string progressDetailedUpdate = (int.Parse(form.determinerProgressDetailed.Text.Split('/')[0]) + 1) +
-                                "/" + (rangeCount["rowCountMLS"] - 1);
-                            MethodInvoker inv2 = delegate
-                            {
-                                form.determinerProgressDetailed.Text = progressDetailedUpdate;
-                            };
-                            form.Invoke(inv2);
+                            //string progressDetailedUpdate = (int.Parse(form.determinerProgressDetailed.Text.Split('/')[0]) + 1) +
+                            //    "/" + (rangeCount["rowCountMLS"] - 1);
+                            //MethodInvoker inv2 = delegate
+                            //{
+                            //    form.determinerProgressDetailed.Text = progressDetailedUpdate;
+                            //};
+                            //form.Invoke(inv2);
                         }
                     }
                 }

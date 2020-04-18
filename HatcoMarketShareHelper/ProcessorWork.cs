@@ -358,12 +358,12 @@ namespace HatcoMarketShareHelper
                 form.Invoke(inv1);
 
                 // update detailed progress after each row of sheet 1
-                string progressDetailedString = sheet1CurrRow + "/" + (rangeCount["rowCount1MLS"] - 1);
-                MethodInvoker inv2 = delegate
-                {
-                    form.processorProgressDetailed.Text = progressDetailedString;
-                };
-                form.Invoke(inv2);
+                //string progressDetailedString = sheet1CurrRow + "/" + (rangeCount["rowCount1MLS"] - 1);
+                //MethodInvoker inv2 = delegate
+                //{
+                //    form.processorProgressDetailed.Text = progressDetailedString;
+                //};
+                //form.Invoke(inv2);
             }
 
             Excel._Worksheet xlWorksheet4MLS = null;
@@ -451,7 +451,7 @@ namespace HatcoMarketShareHelper
                 xlWorksheet3MLS.Sort.SetRange(xlWorksheet3MLS.UsedRange);
                 xlWorksheet3MLS.Sort.Header = Excel.XlYesNoGuess.xlYes;
                 xlWorksheet3MLS.Sort.SortFields.Add(
-                        xlRange3MLS.Columns[relevantCols["MLSAgentCol3"]],
+                        xlRange3MLS.Columns[relevantCols["MLSOfficeCol3"]],
                         Excel.XlSortOn.xlSortOnValues,
                         Excel.XlSortOrder.xlAscending
                     );
@@ -460,20 +460,11 @@ namespace HatcoMarketShareHelper
 
                 if (runAsCapstone)
                 {
-                    //xlWorksheet4MLS.Sort.SetRange(xlWorksheet4MLS.UsedRange);
-                    //xlWorksheet4MLS.Sort.Header = Excel.XlYesNoGuess.xlYes;
-                    //xlWorksheet4MLS.Sort.SortFields.Add(
-                    //        xlWorksheet4MLS.UsedRange.Columns[relevantCols["MLSZipCol2"]],
-                    //        Excel.XlSortOn.xlSortOnValues,
-                    //        Excel.XlSortOrder.xlAscending
-                    //    );
-                    //xlWorksheet4MLS.Sort.Apply();
-                    xlWorksheet4MLS.Range[
-                            xlWorksheet4MLS.Cells[2,1],
-                            xlWorksheet4MLS.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell)
-                        ].Sort(
-                            Key1:xlWorksheet4MLS.UsedRange.Columns[relevantCols["MLSZipCol2"]],
-                            Key2:xlWorksheet4MLS.UsedRange.Columns[relevantCols["MLSAgentCol2"]]
+                    // sort worksheet 4 by zip code then subsort by agent name
+                    xlWorksheet4MLS.UsedRange.Sort(
+                            Key1: xlWorksheet4MLS.UsedRange.Columns[relevantCols["MLSZipCol2"]],
+                            Key2: xlWorksheet4MLS.UsedRange.Columns[relevantCols["MLSAgentCol2"]],
+                            Header: Excel.XlYesNoGuess.xlYes
                         );
                 }
 
@@ -498,7 +489,7 @@ namespace HatcoMarketShareHelper
                 };
                 xlWorksheet2MLS.UsedRange.Subtotal(relevantCols["MLSAgentCol2"],
                     Excel.XlConsolidationFunction.xlSum, subtotalCols2);
-                xlWorksheet3MLS.UsedRange.Subtotal(relevantCols["MLSAgentCol3"],
+                xlWorksheet3MLS.UsedRange.Subtotal(relevantCols["MLSOfficeCol3"],
                     Excel.XlConsolidationFunction.xlSum, subtotalCols3);
 
                 if (runAsCapstone)
