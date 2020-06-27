@@ -13,9 +13,12 @@ namespace HatcoMarketShareHelper
     class Finalizer
     {
         public void mainFinalizer(string MLSFileName, int closingThreshold, double closingPercent,
-            IProgress<int> progress, Form1 form)
+            bool runAsCapstone, Dictionary<string, string[]> specificAreas, IProgress<int> progress,
+            Form1 form)
         {
             Application.UseWaitCursor = true; // set the cursor to waiting symbol
+
+            int numAgentsSheets = specificAreas.Count; // get the number of additional Agents sheets that need to be generated
 
             // open all excel files for use
             Excel.Application xlApp = new Excel.Application();
@@ -42,6 +45,24 @@ namespace HatcoMarketShareHelper
                 xlWorkbookMLS.Sheets[initialSheetCount + 4].Name = "Brokers - Alpha";
                 xlWorkbookMLS.Sheets[initialSheetCount + 5].Name = "NonCust";
                 xlWorkbookMLS.Sheets[initialSheetCount + 6].Name = "NonCust - Alpha";
+
+                if (runAsCapstone)
+                {
+                    xlWorkbookMLS.Sheets.Add(After: xlWorkbookMLS.Sheets[xlWorkbookMLS.Sheets.Count],
+                        Count: numAgentsSheets * 2);
+                    for (int i = 1; i <= numAgentsSheets; i++)
+                    {
+                        string sheetName = "Agents (" + specificAreas.Keys.ElementAt(i - 1) +
+                            ")"; // create the name of the specified worksheet
+                        xlWorkbookMLS.Sheets[initialSheetCount + 6 + i].Name = sheetName;
+                    }
+                    for (int i = 1; i <= numAgentsSheets; i++)
+                    {
+                        string sheetName = "NonCust (" + specificAreas.Keys.ElementAt(i - 1) +
+                            ")"; // create the name of the specified worksheet
+                        xlWorkbookMLS.Sheets[initialSheetCount + 6 + numAgentsSheets + i].Name = sheetName;
+                    }
+                }
 
                 // open range for 2nd and 3rd excel spreadsheets
                 Excel.Range xlRange2MLS = xlWorksheet2MLS.UsedRange;
@@ -196,6 +217,7 @@ namespace HatcoMarketShareHelper
                     }
 
                     // Set up the headers for all of the new sheets
+                    // Set up header for Agents sheet
                     xlWorkbookMLS.Sheets[initialSheetCount + 1].Cells[2, 1].Value = "Rank";
                     xlWorkbookMLS.Sheets[initialSheetCount + 1].Cells[2, 2].Value = "Temp";
                     xlWorkbookMLS.Sheets[initialSheetCount + 1].Cells[2, 3].Value = "Agent Name";
@@ -211,7 +233,7 @@ namespace HatcoMarketShareHelper
                     xlWorkbookMLS.Sheets[initialSheetCount + 1].Cells[2, 11].Value = "Closings";
                     xlWorkbookMLS.Sheets[initialSheetCount + 1].Cells[2, 12].Value = "Hatco";
                     xlWorkbookMLS.Sheets[initialSheetCount + 1].Cells[2, 13].Value = "% Closed";
-
+                    // Set up header for Brokers sheet
                     xlWorkbookMLS.Sheets[initialSheetCount + 3].Cells[2, 1].Value = "Rank";
                     xlWorkbookMLS.Sheets[initialSheetCount + 3].Cells[2, 2].Value = "Temp";
                     xlWorkbookMLS.Sheets[initialSheetCount + 3].Cells[2, 3].Value = "Mkt Share";
@@ -227,7 +249,7 @@ namespace HatcoMarketShareHelper
                     xlWorkbookMLS.Sheets[initialSheetCount + 3].Cells[2, 11].Value = "Closings";
                     xlWorkbookMLS.Sheets[initialSheetCount + 3].Cells[2, 12].Value = "Hatco";
                     xlWorkbookMLS.Sheets[initialSheetCount + 3].Cells[2, 13].Value = "% Closed";
-
+                    // Set up header for NonCust sheet
                     xlWorkbookMLS.Sheets[initialSheetCount + 5].Cells[2, 1].Value = "Rank";
                     xlWorkbookMLS.Sheets[initialSheetCount + 5].Cells[2, 2].Value = "Rank";
                     xlWorkbookMLS.Sheets[initialSheetCount + 5].Cells[2, 3].Value = "Agent Name";
@@ -244,16 +266,58 @@ namespace HatcoMarketShareHelper
                     xlWorkbookMLS.Sheets[initialSheetCount + 5].Cells[2, 12].Value = "Hatco";
                     xlWorkbookMLS.Sheets[initialSheetCount + 5].Cells[2, 13].Value = "% Closed";
 
+                    if (runAsCapstone)
+                    {
+                        // Set up headers for extra Agents sheets
+                        for (int i = 1; i <= numAgentsSheets; i++)
+                        {
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + i].Cells[2, 1].Value = "Rank";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + i].Cells[2, 2].Value = "Temp";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + i].Cells[2, 3].Value = "Agent Name";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + i].Cells[2, 4].Value = "Agent Office";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + i].Cells[1, 5].Value = "Total as Listing & Selling Agent";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + i].Cells[2, 5].Value = "Price";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + i].Cells[2, 6].Value = "As SA";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + i].Cells[2, 7].Value = "% SA";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + i].Cells[2, 8].Value = "Closings";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + i].Cells[2, 9].Value = "Hatco";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + i].Cells[2, 10].Value = "% Closed";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + i].Cells[1, 11].Value = "Closings on Both Sides";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + i].Cells[2, 11].Value = "Closings";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + i].Cells[2, 12].Value = "Hatco";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + i].Cells[2, 13].Value = "% Closed";
+                        }
+                        // Set up headers for extra NonCust sheets
+                        for (int i = 1; i <= numAgentsSheets; i++)
+                        {
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + numAgentsSheets + i].Cells[2, 1].Value = "Rank";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + numAgentsSheets + i].Cells[2, 2].Value = "Rank";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + numAgentsSheets + i].Cells[2, 3].Value = "Agent Name";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + numAgentsSheets + i].Cells[2, 4].Value = "Agent Office";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + numAgentsSheets + i].Cells[1, 5].Value = "Total as Listing & Selling Agent";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + numAgentsSheets + i].Cells[2, 5].Value = "Price";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + numAgentsSheets + i].Cells[2, 6].Value = "As SA";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + numAgentsSheets + i].Cells[2, 7].Value = "% SA";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + numAgentsSheets + i].Cells[2, 8].Value = "Closings";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + numAgentsSheets + i].Cells[2, 9].Value = "Hatco";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + numAgentsSheets + i].Cells[2, 10].Value = "% Closed";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + numAgentsSheets + i].Cells[1, 11].Value = "Closings on Both Sides";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + numAgentsSheets + i].Cells[2, 11].Value = "Closings";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + numAgentsSheets + i].Cells[2, 12].Value = "Hatco";
+                            xlWorkbookMLS.Sheets[initialSheetCount + 6 + numAgentsSheets + i].Cells[2, 13].Value = "% Closed";
+                        }
+                    }
+
                     // set up the progress bar
                     MethodInvoker inv = delegate
                     {
-                        form.finalizerProgressBar.Maximum = 7;
+                        form.finalizerProgressBar.Maximum = 7 + (numAgentsSheets * 4);
                     };
                     form.Invoke(inv);
 
                     FinalizerWork fin = new FinalizerWork();
                     fin.finalizerWork(xlWorkbookMLS, initialSheetCount, closingThreshold,
-                        closingPercent, relevantCols, progress, form);
+                        closingPercent, relevantCols, runAsCapstone, specificAreas, progress, form);
 
                     // create "Agents - Alpha" sheet
                     Excel.Range AgentsRange = xlWorkbookMLS.Sheets[initialSheetCount + 1].UsedRange;

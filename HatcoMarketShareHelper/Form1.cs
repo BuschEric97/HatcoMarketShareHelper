@@ -227,6 +227,7 @@ namespace HatcoMarketShareHelper
             {
                 finalizerProgressBar.Increment(v);
             });
+            Dictionary<string, string[]> specificAreas = getSpecificAreas();
             Form1 form = this;
 
             try
@@ -236,7 +237,8 @@ namespace HatcoMarketShareHelper
 
                 Task mainTask = Task.Run(() => fin.mainFinalizer(MLSInputFile_Finalizer.Text,
                     decimal.ToInt32(NonCust_ClosingsThreshold.Value),
-                    double.Parse(NonCust_ClosingPercent.Text), progress, this));
+                    double.Parse(NonCust_ClosingPercent.Text), runAsCapstone.Checked,
+                    specificAreas, progress, this));
 
                 await Task.Run(() =>
                 {
