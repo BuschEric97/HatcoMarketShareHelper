@@ -42,7 +42,7 @@ namespace HatcoMarketShareHelper
                     office = xlWorkbookMLS.Sheets[2].Cells[currSheetRow - 1, relevantCols["AgentOfficeCol"]].Value.ToString();
 
                 // skip the current row if it is not a subtotal row
-                if (!name.Contains("Total") && !office.Equals(""))
+                if (!name.Contains("Total"))
                     continue;
 
                 string price = "";
@@ -125,7 +125,7 @@ namespace HatcoMarketShareHelper
                     office = xlWorkbookMLS.Sheets[3].Cells[currSheetRow, relevantCols["BrokerOfficeCol"]].Value.ToString();
 
                 // skip the current row if it is not a subtotal row
-                if (!office.Contains("Total") && !name.Equals(""))
+                if (!office.Contains("Total"))
                     continue;
 
                 string price = "";
@@ -282,7 +282,7 @@ namespace HatcoMarketShareHelper
                             office = xlWorkbookMLS.Sheets[4 + i].Cells[currSheetRow - 1, relevantCols["AgentOfficeCol"]].Value.ToString();
 
                         // skip the current row if it is not a subtotal row
-                        if (!name.Contains("Total") && !office.Equals(""))
+                        if (!name.Contains("Total"))
                             continue;
 
                         string price = "";

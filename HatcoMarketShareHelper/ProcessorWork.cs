@@ -294,11 +294,11 @@ namespace HatcoMarketShareHelper
 
                         if (runAsCapstone)
                         {
-                            xlRange3MLS.Cells[sheet2CurrRow, relevantCols["MLSZipCol3"]].Value
+                            xlRange3MLS.Cells[sheet3CurrRow, relevantCols["MLSZipCol3"]].Value
                                 = zip;
-                            xlRange3MLS.Cells[sheet2CurrRow, relevantCols["MLSRegionCol3"]].Value
+                            xlRange3MLS.Cells[sheet3CurrRow, relevantCols["MLSRegionCol3"]].Value
                                 = region;
-                            xlRange3MLS.Cells[sheet2CurrRow, relevantCols["MLSTitleCoCol3"]].Value
+                            xlRange3MLS.Cells[sheet3CurrRow, relevantCols["MLSTitleCoCol3"]].Value
                                 = titleCo;
                         }
 
