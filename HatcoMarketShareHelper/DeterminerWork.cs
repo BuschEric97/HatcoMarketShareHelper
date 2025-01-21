@@ -50,6 +50,13 @@ namespace HatcoMarketShareHelper
                     // loop through the files and do the main work
                     for (int currentMLSFile = range.Item1; currentMLSFile <= range.Item2; currentMLSFile++)
                     {
+                        MethodInvoker inv2 = delegate
+                        {
+                            form.debugScreen.AppendText(Environment.NewLine + "Working on row " + currentMLSFile + " in MLS xl file");
+                        };
+                        form.Invoke(inv2);
+                        Console.WriteLine("Working on row " + currentMLSFile + " in MLS xl file");
+
                         // initialize the variables that will determine if file in row closed
                         //
                         // For addressMatch and ownerMatch: 0 = no match,
@@ -267,8 +274,8 @@ namespace HatcoMarketShareHelper
                             /// determine whether the file was closed with hatco or not and print to xl file
                             if (zipMatch && dateClosedMatch && addressMatch == 2 && ownerMatch == 2)
                             {
-                                string closedGF = Program.xlRangeAIM.Cells[closedGFNumRow, relevantCols["AIMFileNoCol"]].Value.ToString();
-                                string escrOff = Program.xlRangeAIM.Cells[closedGFNumRow, relevantCols["AIMEscrowCol"]].Value.ToString();
+                                string closedGF = Convert.ToString(Program.xlRangeAIM.Cells[closedGFNumRow, relevantCols["AIMFileNoCol"]].Value);
+                                string escrOff = Convert.ToString(Program.xlRangeAIM.Cells[closedGFNumRow, relevantCols["AIMEscrowCol"]].Value);
                                 Program.xlRangeMLS.Cells[currentMLSFile, relevantCols["MLSGFCol"]].Value = closedGF;
                                 Program.xlRangeMLS.Cells[currentMLSFile, relevantCols["MLSEscrowOfficerCol"]].Value = escrOff;
 
@@ -283,8 +290,8 @@ namespace HatcoMarketShareHelper
                             }
                             else if (zipMatch && dateClosedMatch && addressMatch > 0 && ownerMatch > 0)
                             {
-                                string closedGF = Program.xlRangeAIM.Cells[closedGFNumRow, relevantCols["AIMFileNoCol"]].Value.ToString();
-                                string escrOff = Program.xlRangeAIM.Cells[closedGFNumRow, relevantCols["AIMEscrowCol"]].Value.ToString();
+                                string closedGF = Convert.ToString(Program.xlRangeAIM.Cells[closedGFNumRow, relevantCols["AIMFileNoCol"]].Value);
+                                string escrOff = Convert.ToString(Program.xlRangeAIM.Cells[closedGFNumRow, relevantCols["AIMEscrowCol"]].Value);
                                 Program.xlRangeMLS.Cells[currentMLSFile, relevantCols["MLSGFCol"]].Value = closedGF;
                                 Program.xlRangeMLS.Cells[currentMLSFile, relevantCols["MLSLikelyCloseCol"]].Value = "true";
                                 Program.xlRangeMLS.Cells[currentMLSFile, relevantCols["MLSEscrowOfficerCol"]].Value = escrOff;
