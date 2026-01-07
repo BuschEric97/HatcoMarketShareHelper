@@ -33,6 +33,13 @@ namespace HatcoMarketShareHelper
             Excel.Worksheet sheet = xlWorkbookMLS.Sheets[initialSheetCount + 1];
             for (int currSheetRow = 2; currSheetRow <= xlRange2MLS.Rows.Count; currSheetRow++)
             {
+                MethodInvoker inv2 = delegate
+                {
+                    form.debugScreen.AppendText(Environment.NewLine + "Working on row " + currSheetRow + " in MLS xl file");
+                };
+                form.Invoke(inv2);
+                Console.WriteLine("Working on row " + currSheetRow + " in MLS xl file");
+
                 // get all of the relevant information from the AgentCombined sheet
                 string name = "";
                 if (xlWorkbookMLS.Sheets[2].Cells[currSheetRow, relevantCols["AgentAgentCol"]].Value != null)

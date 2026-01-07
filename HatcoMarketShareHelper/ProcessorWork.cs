@@ -25,6 +25,13 @@ namespace HatcoMarketShareHelper
 
             for (int sheet1CurrRow = 2; sheet1CurrRow < rangeCount["rowCount1MLS"]; sheet1CurrRow++)
             {
+                MethodInvoker inv2 = delegate
+                {
+                    form.debugScreen.AppendText(Environment.NewLine + "Working on row " + sheet1CurrRow + " in MLS xl file");
+                };
+                form.Invoke(inv2);
+                Console.WriteLine("Working on row " + sheet1CurrRow + " in MLS xl file");
+
                 // take relevant data from tab 1, taking it as an empty string if it is null
                 string sellingAgent = "";
                 if (xlRange1MLS.Cells[sheet1CurrRow, relevantCols["MLSSellAgentCol1"]].Value != null)
